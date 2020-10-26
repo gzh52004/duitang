@@ -11,8 +11,12 @@ import NavTab from './views/NavTab'
 function App() {
   return (
     <div className="App">
+<<<<<<< HEAD
      <Header/>
      <NavTab/>
+=======
+      你好React
+>>>>>>> czn
     </div>
   );
 }

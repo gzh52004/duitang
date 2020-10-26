@@ -1,12 +1,11 @@
-import React from "react";
+import React from 'react';
 
-
-let Reg = function(){
-    return(
+const Reg = ()=>{
+    return (
         <div>
-            Reg
+            注册
         </div>
     )
-} 
+}
 
 export default Reg
