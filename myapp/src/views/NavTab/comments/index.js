@@ -1,12 +1,12 @@
 import React from "react";
 
 
-let Login = function(){
+let comments = function(){
     return(
         <div>
-            login
+            comments
         </div>
     )
 } 
 
-export default Login
+export default comments

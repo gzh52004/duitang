@@ -1,12 +1,12 @@
 import React from "react";
 
 
-let Login = function(){
+let Goods = function(){
     return(
         <div>
-            login
+            Goods
         </div>
     )
 } 
 
-export default Login
+export default Goods

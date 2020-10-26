@@ -1,12 +1,12 @@
 import React from "react";
 
 
-let Login = function(){
+let User = function(){
     return(
         <div>
-            login
+            User
         </div>
     )
 } 
 
-export default Login
+export default User
