@@ -1,7 +1,7 @@
 import React from "react";
 
 
-let comments = function(){
+let Comment = function(){
     return(
         <div>
             comments
@@ -9,4 +9,4 @@ let comments = function(){
     )
 } 
 
-export default comments
+export default Comment

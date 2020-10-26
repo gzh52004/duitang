@@ -1,10 +1,6 @@
 // 路由跳转
 import { Route, Switch, Redirect, withRouter } from "react-router-dom"
 import { Menu,Col, Row } from 'antd';
-import User from './user'
-import Goods from './goods'
-import Orders from './orders'
-import Comments from './comments'
 import './index.scss'
 // 样式
 import 'antd/dist/antd.css';
@@ -15,34 +11,25 @@ class NavTab extends React.Component {
     state = {
         menu: [{
             text: '用户管理',
-            path: '/user',
+            path: '/mainContainer/user',
             name: 'user',
-            component: User,
-            // icon: <HomeOutlined />
         },
         {
             text: '商品管理',
-            path: '/goods',
+            path: '/mainContainer/goods',
             name: 'goods',
-            component: Goods,
-
         },
         {
             text: '订单管理',
-            path: '/orders',
+            path: '/mainContainer/orders',
             name: 'orders',
-            component: Orders,
-
         },
         {
             text: '评论管理',
-            path: '/comments',
+            path: '/mainContainer/comments',
             name: 'comments',
-            component: Comments,
-
         }],
-
-        current: '/home',
+        current: '/user',
     }
 
     // 方法： 跳转路由
@@ -55,10 +42,12 @@ class NavTab extends React.Component {
 
     }
     UNSAFE_componentWillMount() {
-        const { pathname } = this.props.location
-        console.log(pathname);
-        this.setState({
-            current: pathname
+        this.props.history.listen( (route)=>{
+            let {pathname} = route
+            pathname =  pathname == '/' || '/mainContainer' ? '/mainContainer/user' : pathname
+            this.setState({
+                current : pathname
+            })
         })
     }
     render() {
@@ -74,20 +63,9 @@ class NavTab extends React.Component {
                         </Menu.Item>)
                     }
                 </Menu>
-                <Switch>
-                    {
-                        menu.map(item => <Route key={item.name} path={item.path} component={item.component} ></Route>)
-                    }
-                    <Route path="/notfound" render={() => <div>404</div>}></Route>
-                    {/*重定向 有两个参数 exact精确匹配 */}
-                    <Redirect from='/' to='/home' exact />
-                    <Redirect to="/notfound" />
-                </Switch>
             </div>
 
         )
-
-
     }
 
 }
