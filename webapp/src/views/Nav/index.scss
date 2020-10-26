@@ -1,0 +1,53 @@
+.Nav{
+    background-color: rgb(255, 255, 255);
+    /* position: fixed; */
+    width: 100%;
+    box-sizing: border-box;
+    /* top: 0px; */
+    z-index: 999;
+    padding: 9px;
+    text-align: left;
+    overflow: hidden;
+    display: flex;
+}
+.Nav i{
+    width: 34px;
+    height: 34px;
+    background-image: url("../Nav/images/dt-head.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin-left: 11px;
+}
+.copy{
+    box-sizing: border-box;
+    flex: 1;
+    margin-left: 8px;
+    min-width: 10px;
+    font-size: 12px;
+    color: rgb(68, 68, 68);
+    line-height: 16px;
+    width: 85px;
+}
+.copy div:nth-of-type(1){
+    font-weight: bold;
+    white-space: pre;
+}
+.open{
+    box-sizing: border-box;
+    flex: 1;
+    margin-left: 8px;
+    margin-top: 5px;
+    min-width: 10px;
+    font-size: 13px;
+    background-color: rgb(242, 85, 85);
+    width: 62px;
+    height: 23px;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    color: rgb(255, 255, 255);
+    border-radius: 6px;
+    flex: 0 0 auto !important;
+}
