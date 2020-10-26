@@ -1,6 +1,6 @@
 import React from 'react'
 // ui框架直接引用要用的组件
-import { Menu, Col, Row, Button } from 'antd';
+// import { Menu, Col, Row, Button } from 'antd';
 // 样式
 // import 'antd/dist/antd.css';
 // import '@/App.scss';
@@ -9,7 +9,7 @@ import { Menu, Col, Row, Button } from 'antd';
 function App() {
   return (
     <div className="App">
-      jjjj
+      你好React
     </div>
   );
 }
