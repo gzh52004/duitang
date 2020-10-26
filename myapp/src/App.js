@@ -1,23 +1,18 @@
-import logo from './logo.svg';
+import React from 'react'
+// ui框架直接引用要用的组件
+// import { Menu, Col, Row, Button } from 'antd';
+// 样式
+import 'antd/dist/antd.css';
 import '@/App.scss';
-
+import Header from './views/Header'
+import NavTab from './views/NavTab'
+// 路由跳转
+// import { Route, Redirect, Switch, NavLink, withRouter } from "react-router-dom"
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <Header/>
+     <NavTab/>
     </div>
   );
 }
