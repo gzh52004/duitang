@@ -1,4 +1,4 @@
-import React,{useEffect,useState,useLayoutEffect} from 'react';
+import React,{useEffect,useState,useContext} from 'react';
 import {Route,Switch,withRouter,Redirect} from 'react-router-dom'
 import {Col,Row} from 'antd'
 
@@ -13,20 +13,20 @@ import Comments from '../views/MainContainer/comments'
 
 import Login from '../views/Login';
 import Reg from '../views/Reg';
-
 import NotFound from '../views/NotFound/404'
 
+import {MyContext} from '../hook/index'
+
 function RouterTable (props){
-    let [ShowLogin,changeShowLogin] = useState(false)
-    useEffect(()=>{
-  
-    })
+    // const {state,dispatch} = useContext(MyContext)
+    // console.log(state,'666666666')
+    // let [ShowLogin,changeShowLogin] = useState(false)
     return (
         <>
         {/* {
             !ShowLogin ? 
            <> */}
-             <Header ShowLogin={{ShowLogin,changeShowLogin}}/>
+             <Header />
             <Row>
                 <NavTab />
                 <MainContainer>
