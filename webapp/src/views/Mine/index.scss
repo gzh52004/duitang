@@ -1,0 +1,33 @@
+@import '@/assets/sass/vw.scss';
+
+.mine{
+    .am-flexbox-align-center{
+        height: vw(141);
+        background-color: rgb(241, 238, 238);
+        img{
+            height: vw(78);
+            margin-left: vw(36);
+            border-radius: 50%;
+        }
+    }
+    .am-flexbox-align-stretch{
+        .am-grid-item{
+            .am-grid-text{
+                font-size: vw(14);
+            }
+        }
+    }
+    .notice{
+        img{
+            width: 100%;
+        }
+    }
+    .com_first{
+        padding-left: vw(23);
+        p{
+            padding-left: vw(23);
+            padding-bottom: vw(23);
+            border-bottom: 1px solid #ccc;
+        }
+    }
+}

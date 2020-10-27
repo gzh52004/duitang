@@ -9,6 +9,11 @@ import Aidou from '@/views/Aidou/Aidou'
 import Wall from '@/views/Wall/Wall'
 import Avatar from '@/views/Avatar/Avatar'
 import Emoticon from '@/views/Emoticon/Emoticon'
+import Login from '@/views/Login';
+import Reg from '@/views/Reg';
+import Mine from '@/views/Mine';
+import Modification from '@/views/Modification';
+
 let tabs = [
   { title: "首页", query: "main", component: Main, path: '/main' },
   { title: "爱豆", query: "celebrity", component: Aidou, path: '/aidou' },
@@ -87,6 +92,10 @@ let App = function (props) {
           tabs.map(item => <Route key={item.query} path={item.path} component={item.component} />)
         }
       </Switch>
+      <Route key='login' path='/login' component={Login}></Route>
+      <Route key='reg' path='/reg' component={Reg}></Route>
+      <Route key='mine' path='/mine' component={Mine}></Route>
+      <Route key='modification' path='/modification' component={Modification}></Route>
     </div>
   );
 }
