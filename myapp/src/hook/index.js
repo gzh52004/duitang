@@ -5,17 +5,20 @@ const initState = {
 }
 
 const reducer = function (state,action){
+    console.log(state,action,'reducer2222')
     switch(action.type){
-        default : 
-            return state
+        case 'ShowLogin' :
+            return {
+                showLogin : action.show
+            }
     }
+    return state
 }
 
 export const MyContext = React.createContext(null)
 
 export const Provider = (props)=>{
     const [state,dispatch] = useReducer(reducer,initState)
-    console.log(props,'5555555555555')
     return (
         <MyContext.Provider value={{state,dispatch}}>
             {props.children}

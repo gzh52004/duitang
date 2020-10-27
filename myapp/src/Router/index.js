@@ -18,47 +18,46 @@ import NotFound from '../views/NotFound/404'
 import {MyContext} from '../hook/index'
 
 function RouterTable (props){
-    // const {state,dispatch} = useContext(MyContext)
-    // console.log(state,'666666666')
-    // let [ShowLogin,changeShowLogin] = useState(false)
+    const {state,dispatch} = useContext(MyContext)
     return (
+       
         <>
-        {/* {
-            !ShowLogin ? 
-           <> */}
-             <Header />
-            <Row>
-                <NavTab />
-                <MainContainer>
-                        <Switch>
-                            <Route path="/mainContainer/user" component={User}/>
-                            <Route path="/mainContainer/goods" component={Goods}/>
-                            <Route path="/mainContainer/orders" component={Orders}/>
-                            <Route path="/mainContainer/comments" component={Comments}/>
-                            <Route path="/notfound" component={NotFound}/>
-                            <Redirect from="/mainContainer" to="mainContainer/user" exact/>
-                            <Redirect path="/mainContainer" to="/notfound" />
-                        </Switch>
-                </MainContainer>
-            </Row>
-        <Switch>
-            <Route path="/login" component={Login} />
-            <Route path="/Reg" component={Reg} />
-            <Route path="/mainContainer" component={MainContainer} />
-            <Route path="/notfound" component={NotFound}/>
-            <Redirect from="/" to="mainContainer/user" exact/>
-            <Redirect to="/notfound"/>
-        </Switch> 
-           </>
-        // :
-        // <>
-        // <Switch>
-        //     <Route path="/login" component={Login} />
-        //     <Route path="/Reg" component={Reg} />
-        // </Switch>
-        // </>
-        // }
-      
+            {
+                !state.showLogin ?    <>
+                    <Header />
+                        <Row>
+                            <NavTab />
+                            <MainContainer>
+                                    <Switch>
+                                        <Route path="/mainContainer/user" component={User}/>
+                                        <Route path="/mainContainer/goods" component={Goods}/>
+                                        <Route path="/mainContainer/orders" component={Orders}/>
+                                        <Route path="/mainContainer/comments" component={Comments}/>
+                                        <Route path="/notfound" component={NotFound}/>
+                                        <Redirect from="/mainContainer" to="mainContainer/user" exact/>
+                                        <Redirect path="/mainContainer" to="/notfound" />
+                                    </Switch>
+                            </MainContainer>
+                        </Row>
+                    <Switch>
+                        <Route path="/login" component={Login} />
+                        <Route path="/Reg" component={Reg} />
+                        <Route path="/mainContainer" component={MainContainer} />
+                        <Route path="/notfound" component={NotFound}/>
+                        <Redirect from="/" to="mainContainer/user" exact/>
+                        <Redirect to="/notfound"/>
+                    </Switch> 
+                </>
+                :
+                <>
+                <Switch>
+                        <Route path="/login" component={Login} />
+                        <Route path="/Reg" component={Reg} />
+                </Switch>
+                </>
+            }
+        </>
+        
     )
 }
 RouterTable = withRouter(RouterTable)
