@@ -16,7 +16,7 @@ let Header = (props)=>{
         props.history.push(path)
     }
     return (
-        <div>
+        <div className="HeaderWarp">
         <Row>
         <Col span={18} >
             <Menu theme='dark' mode='horizontal' style={{background:'#999'}}>
@@ -33,10 +33,10 @@ let Header = (props)=>{
             //    <Button type="link" onClick={()=>{logout()}}>退出</Button>
             //     :
                 <>
-                <Button type="link" onClick={goto.bind(null, '/login')}>
+                <Button type="primary" onClick={goto.bind(null, '/login')}>
                     登录
                 </Button>
-                <Button type="link" onClick={goto.bind(null, '/reg')}>
+                <Button type="primary" onClick={goto.bind(null, '/reg')}>
                     注册
                 </Button> 
                 </>
