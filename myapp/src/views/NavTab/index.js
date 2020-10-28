@@ -2,11 +2,12 @@
 import { Route, Switch, Redirect, withRouter } from "react-router-dom"
 import { Menu,Col, Row } from 'antd';
 import './index.scss'
-// 样式
-import 'antd/dist/antd.css';
+
+
 import React,{useEffect,useState,useContext,useLayoutEffect} from 'react';
 import {MyContext} from '../../hook'
 
+import './index.scss'
 let initState = {
     menu: [{
         text: '用户管理',

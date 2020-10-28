@@ -1,0 +1,12 @@
+@import '@/assets/sass/vw.scss';
+
+.reg{
+    h2{
+        padding-left: vw(20);
+    }
+    .am-flexbox{
+        .am-flexbox-item{
+            text-align: center;
+        }
+    }
+}

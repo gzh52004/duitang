@@ -1,9 +1,8 @@
-import axios from 'axios'
+import axios from 'axios';
 
-const baseUrl = 'http://10.3.140.198:2005'
-
-const request = axios.create({
-    baseURL:baseUrl
+const baseURL = 'http://10.3.140.198:2005/'
+const requset = axios.create({
+    baseURL : baseURL
 })
 
-export default request;
+export default requset

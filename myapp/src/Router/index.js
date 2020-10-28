@@ -17,27 +17,34 @@ import NotFound from '../views/NotFound/404'
 
 import {MyContext} from '../hook/index'
 
+import './index.scss'
+
 function RouterTable (props){
     const {state,dispatch} = useContext(MyContext)
     return (
        
-        <>
+        <div className="Container">
+            <>
+            
             {
+                   
                 !state.showLogin ?    <>
-                    <Header />
-                        <Row>
-                            <NavTab />
-                            <MainContainer>
-                                    <Switch>
-                                        <Route path="/mainContainer/user" component={User}/>
-                                        <Route path="/mainContainer/goods" component={Goods}/>
-                                        <Route path="/mainContainer/orders" component={Orders}/>
-                                        <Route path="/mainContainer/comments" component={Comments}/>
-                                        <Route path="/notfound" component={NotFound}/>
-                                        <Redirect from="/mainContainer" to="mainContainer/user" exact/>
-                                        <Redirect path="/mainContainer" to="/notfound" />
-                                    </Switch>
-                            </MainContainer>
+                        <Header />
+                        <Row className="RowWrap">
+           
+                                <NavTab />
+                                <MainContainer>
+                                        <Switch>
+                                            <Route path="/mainContainer/user" component={User}/>
+                                            <Route path="/mainContainer/goods" component={Goods}/>
+                                            <Route path="/mainContainer/orders" component={Orders}/>
+                                            <Route path="/mainContainer/comments" component={Comments}/>
+                                            <Route path="/notfound" component={NotFound}/>
+                                            <Redirect from="/mainContainer" to="mainContainer/user" exact/>
+                                            <Redirect path="/mainContainer" to="/notfound" />
+                                        </Switch>
+                                </MainContainer>
+                   
                         </Row>
                     <Switch>
                         <Route path="/login" component={Login} />
@@ -57,6 +64,8 @@ function RouterTable (props){
                 </>
             }
         </>
+
+        </div>
         
     )
 }
