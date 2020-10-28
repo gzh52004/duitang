@@ -1,84 +1,143 @@
-import React,{useEffect,useState} from "react";
-import { Table, Tag, Space } from 'antd';
+import React from "react";
+import { Table, Space,  Button,Modal,Form, Input} from 'antd';
 import request from '@/utils/request'
-
-const { Column} = Table;
-const data = [
-    {
-      key: '1',
-      firstName: '姓名',
-   
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-      tags: ['nice', 'developer'],
-    },
-    {
-      key: '2',
-      firstName: 'Jim',
- 
-      age: 42,
-      address: 'London No. 1 Lake Park',
-      tags: ['loser'],
-    },
-    {
-      key: '3',
-      firstName: 'Joe',
-   
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
-      tags: ['cool', 'teacher'],
-    },
-  ];
-
-//   const [data,useEffect] = useState(data)
-let User = function(){
-
-    // hook 生命周期函数
-    useEffect(async function(){
-        const {data} = await request.get('/user/list',{
-            params:{
-                size:10,
-                page:1
-            }
-        })
-        console.log(data);
-    })
-      
+import './index.scss'
+const { Column } = Table;
+class User extends React.Component {
+  state = {
+    data: [],
+      loading: false,
+      visible: false,
     
-    return(
-        <div>
-          <Table dataSource={data}>
-      <Column title="姓名" dataIndex="firstName" key="firstName" />
+  }
+  async componentDidMount() {
+    const { data } = await request.get('/user/list', {
+      params: {
+        size: 20,
+        page: 1
+      }
+    })
+    this.setState({
+      data: data.data
+    })
 
-    <Column title="年龄" dataIndex="age" key="age" />
-    <Column title="电话" dataIndex="address" key="address" />
-    <Column
-      title="Tags"
-      dataIndex="tags"
-      key="tags"
-      render={tags => (
-        <>
-          {tags.map(tag => (
-            <Tag color="blue" key={tag}>
-              {tag}
-            </Tag>
-          ))}
-        </>
-      )}
-    />
-    <Column
-      title="操作"
-      key="action"
-      render={(text, record) => (
+  }
+
+
+// 弹出框
+
+// 确定编辑
+handleOk = () => {
+  this.setState({ loading: true });
+  setTimeout(() => {
+    this.setState({ loading: false, visible: false });
+  }, 2000);
+
+
+};
+// 取消编辑
+handleCancel = () => {
+  this.setState({ visible: false });
+
+};
+
+  // 编辑用户
+  Edit=(id)=>{
+    console.log(id);
+    this.setState({
+      visible: true,
+    });
+  }
+  onFinish = values => {
+    console.log('Success:', values);
+  };
+
+  // 删除用户
+  Delete=(id)=>{
+    console.log(id);
+  }
+
+  
+ 
+
+  render() {
+    const { data,visible,loading } = this.state
+    console.log(data);
+  
+    return (
+      <div className='user'>
+        {/* 查询用户和新增 */}
+      
+       <div className='search'><Form layout="inline" >
+        <Form.Item >
+            <Input type="text" placeholder="查询用户" style={{width: '255px'}}/>
+          </Form.Item> 
+        </Form>
         <Space size="middle">
-          <a>编辑 {record.lastName}</a>
-          <a>删除</a>
-        </Space>
-      )}
-    />
-  </Table>,
-        </div>
+        <Button type="primary" onClick={()=>{}}>
+                  查询
+                </Button>  
+                <Button type="primary" onClick={()=>{}}>
+                新增
+                </Button>
+                </Space></div>
+      
+
+
+        <Table dataSource={data}>
+          <Column title="姓名" dataIndex="username" key="username" />
+          <Column title="注册时间" dataIndex="addTime" key="addTime" />
+          <Column title="头像" key="_id" render={(text, record, index) => (<img src={record.avatar} alt="" className='img' />)
+          }/>
+          <Column
+            title="操作"
+            key="_id"
+            render={(text, record) => (
+              <Space size="middle">
+                <Button type="primary" onClick={()=>{this.Edit(record._id)}}>
+                  编辑
+                </Button>
+                <Button danger onClick={()=>{this.Delete(record._id)}}>
+                  删除
+                </Button>
+              </Space>
+            )}
+          />
+        </Table>
+
+
+              {/* 编辑弹出框 */}
+              <Modal
+          visible={visible}
+          title="用户编辑"
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          footer={[
+            <Button key="back" onClick={this.handleCancel}>
+              取消
+            </Button>,
+            <Button key="submit" type="primary" loading={loading} onClick={this.handleOk}>
+              确定
+            </Button>,
+          ]}
+        >
+
+        <Form layout="inline" style={{marginBottom: '10px'}} onFinish={this.onFinish}>
+        
+        <p><Form.Item label="用户">
+            <Input type="text" placeholder="用户名" style={{width: '255px'}}/>
+          </Form.Item></p>  
+          <p><Form.Item label="密码">
+            <Input type="password" placeholder="密码" style={{width: '255px'}}/>
+          </Form.Item></p>
+        </Form>
+        </Modal>
+
+
+      </div>
     )
-} 
+  }
+
+}
 
 export default User
