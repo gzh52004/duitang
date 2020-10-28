@@ -1,0 +1,30 @@
+.RegWarp{
+    width: 100%;
+    height: 100%;
+    background: url('../../assets/img/u=39580824\,1311578469&fm=26&gp=0.jpg') no-repeat;
+    background-size: 100% 100%;
+    overflow: hidden;
+    display: flex;
+    .RegBox{
+        width: 500px;
+        height: 380px;
+        margin: auto;
+        background: rgba(240,248,255,0.4);
+        border-radius: 50px;
+        display: flex;
+        .ant-form{
+            width: 100%;
+            margin: auto;
+            .ant-input{
+                background-color:  rgba(240,248,255,0.4) ;
+            }
+            .ant-input-password{
+                background-color:  rgba(240,248,255,0.4) ;
+                .ant-input{
+                    background-color:  rgba(240,248,255,0) ;
+                }
+            }
+        }
+
+    }
+}

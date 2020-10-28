@@ -4,15 +4,17 @@ import React from 'react'
 // 样式
 import 'antd/dist/antd.css';
 import '@/App.scss';
-import Header from './views/Header'
-import NavTab from './views/NavTab'
+import RouterTable from './Router'
+import {Provider} from './hook/index'
+
 // 路由跳转
 // import { Route, Redirect, Switch, NavLink, withRouter } from "react-router-dom"
 function App() {
   return (
     <div className="App">
-     <Header/>
-     <NavTab/>
+      <Provider>
+        <RouterTable/>
+      </Provider>
     </div>
   );
 }
