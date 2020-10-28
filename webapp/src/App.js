@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Tabs, WhiteSpace } from 'antd-mobile';
-import { Route, Redirect, Switch, Link, NavLink, withRouter,useHistory } from 'react-router-dom';
+import { Route, Redirect, Switch, Link, NavLink, withRouter, useHistory } from 'react-router-dom';
 
 import '@/App.scss';
 import Nav from '@/views/Nav/Nav'
@@ -9,6 +9,7 @@ import Aidou from '@/views/Aidou/Aidou'
 import Wall from '@/views/Wall/Wall'
 import Avatar from '@/views/Avatar/Avatar'
 import Emoticon from '@/views/Emoticon/Emoticon'
+import Footer from '@/views/Footer/Footer'
 let tabs = [
   { title: "首页", query: "main", component: Main, path: '/main' },
   { title: "爱豆", query: "celebrity", component: Aidou, path: '/aidou' },
@@ -50,43 +51,55 @@ let App = function (props) {
       history.push("tab.path");
     }
   } */
-  let history = useHistory(); 
+  let history = useHistory();
   console.log(history);
-  let changeTabs=(tab,index)=>{
-      console.log(tab);
-      console.log(index);
-      console.log('点击切换');
-      history.push(tab.path)
+  let changeTabs = (tab, index) => {
+    console.log(tab);
+    console.log(index);
+    console.log('点击切换');
+    history.push(tab.path)
   }
   return (
-    <div className="App">
-      <Nav />
-      <WhiteSpace />
-      {/* <div classtitle="css-o8bgc8 eas58qq0"></div> */}
-      <Tabs tabs={tabs}
-        initialPage={2}
-        animated={false}
-        useOnPan={false}
-        onTabClick={changeTabs}
-        style={{
-          overflow: 'hidden',
-        }}
-      >
-        {
-          // console.log(tabs),
-          // 循环点击每个不同tab显示显示的内容div
-          /* tabs.map(item =>
-            <div style={{ display: 'flex', justifyContent: 'center', height: '250px', backgroundColor: '#fff' }} key={item.query}>
-              {item.title}
-            </div>) */
-        }
-      </Tabs>
-      <WhiteSpace />
-      <Switch>
-        {
-          tabs.map(item => <Route key={item.query} path={item.path} component={item.component} />)
-        }
-      </Switch>
+    <div className="App" style={{
+      display: 'flex',
+      flexDirection: 'column'
+    }}>
+      <div style={{ position: 'fixed', top: 0, zIndex: 999 }}>
+        <Nav style={{ position: 'fixed', boxSizing: 'border-box' }} />
+        <WhiteSpace style={{ position: 'fixed' }} />
+        {/* <div classtitle="css-o8bgc8 eas58qq0"></div> */}
+        <Tabs tabs={tabs}
+          initialPage={0}
+          animated={false}
+          useOnPan={false}
+          onTabClick={changeTabs}
+          style={{
+            overflow: 'hidden',
+          }}
+        >
+          {
+            // console.log(tabs),
+            // 循环点击每个不同tab显示显示的内容div
+            /* tabs.map(item =>
+              <div style={{ display: 'flex', justifyContent: 'center', height: '250px', backgroundColor: '#fff' }} key={item.query}>
+                {item.title}
+              </div>) */
+          }
+        </Tabs>
+        <WhiteSpace />
+      </div>
+      <div style={{ height: '1000px', marginTop: '87px' }}>
+        <Switch >
+          {
+            tabs.map(item => <Route key={item.query} path={item.path} component={item.component} />)
+          }
+          <Redirect from='/' to='/main' exact />
+          <Route path='/notfound' render={() => <div>404</div>} />
+          <Redirect to='/notfound' />
+        </Switch>
+      </div>
+
+      <Footer></Footer>
     </div>
   );
 }
