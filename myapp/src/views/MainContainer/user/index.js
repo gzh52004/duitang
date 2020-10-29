@@ -6,12 +6,12 @@ const { Column } = Table;
 class User extends React.Component {
   state = {
     data: [],
-      loading: false,
       visible: false,
+      isAdd:false
     
   }
   async componentDidMount() {
-    const { data } = await request.get('/user/list', {
+    const { data } = await request.get('user/list', {
       params: {
         size: 20,
         page: 1
@@ -28,11 +28,10 @@ class User extends React.Component {
 
 // 确定编辑
 handleOk = () => {
-  this.setState({ loading: true });
-  setTimeout(() => {
-    this.setState({ loading: false, visible: false });
-  }, 2000);
-
+  this.setState({visible: false});
+  // onFinish = values => {
+  //   console.log('Success:', values);
+  // };
 
 };
 // 取消编辑
@@ -40,12 +39,21 @@ handleCancel = () => {
   this.setState({ visible: false });
 
 };
+// 新增用户
+Add=()=>{
+
+  this.setState({
+    visible: true,
+    isAdd:false
+  });
+}
 
   // 编辑用户
   Edit=(id)=>{
     console.log(id);
     this.setState({
       visible: true,
+      isAdd:true
     });
   }
   onFinish = values => {
@@ -61,7 +69,7 @@ handleCancel = () => {
  
 
   render() {
-    const { data,visible,loading } = this.state
+    const { data,visible,isAdd} = this.state
     console.log(data);
   
     return (
@@ -77,7 +85,7 @@ handleCancel = () => {
         <Button type="primary" onClick={()=>{}}>
                   查询
                 </Button>  
-                <Button type="primary" onClick={()=>{}}>
+                <Button type="primary" onClick={this.Add}>
                 新增
                 </Button>
                 </Space></div>
@@ -109,19 +117,19 @@ handleCancel = () => {
               {/* 编辑弹出框 */}
               <Modal
           visible={visible}
-          title="用户编辑"
+          title={isAdd ? '用户编辑' : '新增用户'}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={[
             <Button key="back" onClick={this.handleCancel}>
               取消
             </Button>,
-            <Button key="submit" type="primary" loading={loading} onClick={this.handleOk}>
+            <Button key="submit" type="primary" onClick={this.handleOk }
+            >
               确定
             </Button>,
           ]}
         >
-
         <Form layout="inline" style={{marginBottom: '10px'}} onFinish={this.onFinish}>
         
         <p><Form.Item label="用户">
@@ -132,8 +140,6 @@ handleCancel = () => {
           </Form.Item></p>
         </Form>
         </Modal>
-
-
       </div>
     )
   }
