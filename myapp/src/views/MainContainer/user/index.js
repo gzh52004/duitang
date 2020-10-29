@@ -27,13 +27,13 @@ class User extends React.Component {
 // 弹出框
 
 // 确定编辑
-handleOk = () => {
-  this.setState({visible: false});
-  // onFinish = values => {
-  //   console.log('Success:', values);
-  // };
+// handleOk = () => {
+//   this.setState({visible: false});
+//   // onFinish = values => {
+//   //   console.log('Success:', values);
+//   // };
 
-};
+// };
 // 取消编辑
 handleCancel = () => {
   this.setState({ visible: false });
@@ -118,13 +118,13 @@ Add=()=>{
               <Modal
           visible={visible}
           title={isAdd ? '用户编辑' : '新增用户'}
-          onOk={this.handleOk}
+          // onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={[
             <Button key="back" onClick={this.handleCancel}>
               取消
             </Button>,
-            <Button key="submit" type="primary" onClick={this.handleOk }
+            <Button key="submit" type="primary" onClick={isAdd ? this.Add : this.Edit }
             >
               确定
             </Button>,
