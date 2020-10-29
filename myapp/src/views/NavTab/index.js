@@ -15,14 +15,14 @@ let initState = {
         name: 'user',
     },
     {
+        text: '发布管理',
+        path: '/mainContainer/publish',
+        name: 'orders',
+    },
+    {
         text: '商品管理',
         path: '/mainContainer/goods',
         name: 'goods',
-    },
-    {
-        text: '订单管理',
-        path: '/mainContainer/orders',
-        name: 'orders',
     },
     {
         text: '评论管理',
