@@ -1,7 +1,7 @@
 // 路由跳转
-import React,{useContext} from 'react';
+import React,{useCallback, useContext} from 'react';
 import { Route, Switch,withRouter} from "react-router-dom"
-import { Menu, Col, Row, Button } from 'antd';
+import { Menu, Col, Row, Button, message } from 'antd';
 import Log from '@/assets/img/log.png'
 import './index.scss'
 import {MyContext} from '../../hook/index'
@@ -15,23 +15,30 @@ let Header = (props)=>{
         dispatch({type:'ShowLogin',show:true})
         props.history.push(path)
     }
+    const Quit = useCallback(()=>{
+        dispatch({type:'Quit'})
+        dispatch({type:'ShowLogin',show:true})
+        message.success('以退出')
+    }) 
     return (
         <div className="HeaderWarp">
         <Row>
         <Col span={18} >
-            <Menu theme='dark' mode='horizontal' style={{background:'#999'}}>
+            <Menu theme='dark' mode='horizontal' style={{background:'rgba(240,248,255,0.8)'}}>
               <div className="logo">
             <div><img src={Log}alt=""/></div>
             <h2>后台管理系统</h2>
               </div>
             </Menu>
         </Col>
-        <Col span={6} style={{ background: '#999', lineHeight: '46px', textAlign: 'right' }}>
+        <Col span={6} style={{ background: 'rgba(240,248,255,0.8)', lineHeight: '46px', textAlign: 'right' }}>
 
             {
-            //    isLogin ?
-            //    <Button type="link" onClick={()=>{logout()}}>退出</Button>
-            //     :
+               props.showLogin ?
+               <Button type="primary" onClick={Quit} style={{marginRight:'50px'}}>
+                   退出
+                </Button>
+                :
                 <>
                 <Button type="primary" onClick={goto.bind(null, '/login')}>
                     登录
