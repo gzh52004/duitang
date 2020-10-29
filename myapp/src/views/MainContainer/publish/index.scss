@@ -7,4 +7,12 @@
         padding: 0px !important;
         text-align: center;
     }
+ 
+}
+.ant-modal-root .ant-modal-mask{
+    background-color: rgba(0,0,0,0.1) !important;
+}
+.uploadButton{
+    width: 102px;
+    height: 102px;
 }
