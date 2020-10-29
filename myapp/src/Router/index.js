@@ -1,4 +1,4 @@
-import React,{useEffect,useState,useContext} from 'react';
+import React,{useLayoutEffect,useState,useContext} from 'react';
 import {Route,Switch,withRouter,Redirect} from 'react-router-dom'
 import {Col,Row} from 'antd'
 
@@ -8,7 +8,7 @@ import MainContainer from '../views/MainContainer'
 import NavTab from '../views/NavTab'
 import User from '../views/MainContainer/user'
 import Goods from '../views/MainContainer/goods'
-import Orders from '../views/MainContainer/orders'
+import Publish from '../views/MainContainer/publish'
 import Comments from '../views/MainContainer/comments'
 
 import Login from '../views/Login';
@@ -21,15 +21,24 @@ import './index.scss'
 
 function RouterTable (props){
     const {state,dispatch} = useContext(MyContext)
+    useLayoutEffect(()=>{
+        if(state.CurrentUser.token){
+            console.log('4323423')
+            dispatch({type:'ShowLogin',show : false})  
+        }else{
+            console.log('4343rrrttttttttttttttttt')
+            dispatch({type:'ShowLogin',show : true}) 
+        }
+    },[])
     return (
        
         <div className="Container">
             <>
-            
+            <Header showLogin={!state.showLogin}/>
             {
                    
                 !state.showLogin ?    <>
-                        <Header />
+                       
                         <Row className="RowWrap">
            
                                 <NavTab />
@@ -37,12 +46,13 @@ function RouterTable (props){
                                         <Switch>
                                             <Route path="/mainContainer/user" component={User}/>
                                             <Route path="/mainContainer/goods" component={Goods}/>
-                                            <Route path="/mainContainer/orders" component={Orders}/>
+                                            <Route path="/mainContainer/publish" component={Publish}/>
                                             <Route path="/mainContainer/comments" component={Comments}/>
                                             <Route path="/notfound" component={NotFound}/>
                                             <Redirect from="/mainContainer" to="mainContainer/user" exact/>
                                             <Redirect path="/mainContainer" to="/notfound" />
                                         </Switch>
+                                     
                                 </MainContainer>
                    
                         </Row>
@@ -60,6 +70,8 @@ function RouterTable (props){
                 <Switch>
                         <Route path="/login" component={Login} />
                         <Route path="/Reg" component={Reg} />
+                        <Route path="/notfound" component={NotFound}/>
+                        <Redirect from="/" to="/login" />
                 </Switch>
                 </>
             }

@@ -43,8 +43,9 @@ let Login = (props)=>{
             }
         })
         if(data.code === 1){
-            message.success('登录成功')
+            message.success('登录成功')  
             dispatch({type:'ShowLogin',show : false}) 
+            dispatch({type:'Login',data:data.data,remember:values.remember})
             props.history.replace('/maincontainer/user')
         }else {
             message.error('用户名或者密码错误')
@@ -66,7 +67,7 @@ let Login = (props)=>{
             >
             <Form.Item
                 label="Username"
-                name="username"
+                name="username" 
                 rules={[
                 {
                     required: true,
@@ -108,6 +109,7 @@ let Login = (props)=>{
                 </Button>
             </Form.Item>
             </Form>
+           
             </div>
            
         </div>
