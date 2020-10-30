@@ -56,9 +56,9 @@ let tabs = [
   { title: "设计", query: "design", component: Main, path: '/main' },
   { title: "古风", query: "chinoiserie", component: Main, path: '/main' },
 ]
-// const initState={
-//   initialPage:0
-// }
+const initState={
+  initialPage:0
+}
 // 纯函数
 // const reducer=function(state,action){
 //   switch(action.type){
@@ -70,9 +70,9 @@ let tabs = [
 // }
 let App = function (props) {
   console.log('appProps', props);
-  const [state,dispatch]=useReducer(reducer,initState)
-  // useState(tabs)
-  // const [initialPage,saveTabs]=useState(0)
+  // const [state,dispatch]=useReducer(reducer,initState)
+  useState(tabs)
+  const [initialPage,saveTabs]=useState(0)
   // 路由跳转
   let history = useHistory();
   // console.log(history);
@@ -84,7 +84,7 @@ let App = function (props) {
     // console.log(state.initialPage);
     history.push(tab.path)
   }
-  console.log(state.initialPage);
+  // console.log(state.initialPage);
   /* let keepTabs=(tab,index)=>{
     console.log(tab);
     console.log('initialPage修改前',initialPage);
@@ -102,7 +102,7 @@ let App = function (props) {
         <WhiteSpace style={{ position: 'fixed' }} />
         {/* <div classtitle="css-o8bgc8 eas58qq0"></div> */}
         <Tabs tabs={tabs}
-          initialPage={state.initialPage}
+          initialPage={initialPage}
           animated={false}
           useOnPan={false}
           onTabClick={
