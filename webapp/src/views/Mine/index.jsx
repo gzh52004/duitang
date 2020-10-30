@@ -2,6 +2,7 @@ import React from "react";
 import { NavBar, Icon, Flex, Grid } from "antd-mobile";
 
 import "./index.scss";
+import {withAuth} from '@/utils/hoc';
 
 function Mine(props) {
 
@@ -100,4 +101,4 @@ function Mine(props) {
     );
 }
 
-export default Mine;
+export default withAuth(Mine);

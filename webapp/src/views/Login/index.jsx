@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import SHA256 from 'crypto-js/sha256';
+import {connect} from 'react-redux'
 import {
     NavBar,
     Icon,
@@ -13,6 +15,8 @@ import {
 import { createForm } from "rc-form";
 
 import "./index.scss";
+import User from "@/api/user";
+import userAction from '@/store/actions/user';
 
 function Login(props) {
     let { getFieldProps, getFieldError } = props.form;
@@ -41,7 +45,15 @@ function Login(props) {
     const handleClick = () => {
         props.form.validateFields({ force: true }, (error) => {
             if (!error) {
-                console.log(props.form.getFieldsValue());
+                let values = props.form.getFieldsValue();
+                // 加密
+                values.password = SHA256(values.password).toString();
+
+                return props.dispatch({
+                    type:'login_async',
+                    data:values
+                })
+
             } else {
                 Toast.info("填写数据格式不正确");
             }
@@ -127,5 +139,23 @@ function Login(props) {
         </>
     );
 }
+
+const mapStateToProps = state => {
+    return {
+
+    }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+
+        // 测试redux_saga
+        dispatch,
+        login(user){
+            dispatch(userAction.login(user))
+        }
+    }
+}
+
+Login = connect(mapStateToProps,mapDispatchToProps)(Login);
 
 export default createForm()(Login)
