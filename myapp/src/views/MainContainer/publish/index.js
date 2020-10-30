@@ -131,6 +131,7 @@ let Publish = function(){
           page : pagination.current
         }
       })
+      console.log("result",result);
         let arr = result.data.data.map((item,index)=>{
             return {
                 key: index + '',
