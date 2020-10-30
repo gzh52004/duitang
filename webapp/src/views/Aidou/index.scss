@@ -23,4 +23,14 @@
     background-color: #f5f5f5;
 }
     
-
+.list-view-section-body{
+    width: 375px;
+}
+.boxs:nth-of-type(2n-1){
+    float: left;
+    padding-left: 10px;
+}
+.boxs:nth-of-type(2n){
+    float: right;
+    padding-right: 10px;
+}

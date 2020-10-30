@@ -1,36 +1,8 @@
 import React from 'react'
-import '@/views/Aidou/index.scss'
-import request from './../../utils/request'
-
-/* const Aidou = function () {
-
-    return (
-        <div>
-            <div className="css-o8bgc8 eas58qq0"></div>
-            爱豆
-        </div>
-    )
-} */
-
 import { ListView } from 'antd-mobile';
+import request from './../../utils/request'
+import '@/views/Main/index.scss'
 
-// const data = [
-//     {
-//         img: 'https://zos.alipayobjects.com/rmsportal/dKbkpPXKfvZzWCM.png',
-//         title: 'Meet hotel',
-//         des: '不是所有的兼职汪都需要风吹日晒',
-//     },
-//     {
-//         img: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
-//         title: 'McDonald\'s invites you',
-//         des: '不是所有的兼职汪都需要风吹日晒',
-//     },
-//     {
-//         img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-//         title: 'Eat the week',
-//         des: '不是所有的兼职汪都需要风吹日晒',
-//     },
-// ];
 
 const NUM_ROWS = 20;
 let pageIndex = 0;
@@ -44,7 +16,7 @@ function genData(pIndex = 0) {
     return dataBlob;
 }
 
-class Aidou extends React.Component {
+class List extends React.Component {
     constructor(props) {
         super(props);
         const dataSource = new ListView.DataSource({
@@ -59,24 +31,12 @@ class Aidou extends React.Component {
     }
 
     async componentDidMount() {
-        // you can scroll to the specified position
-        // setTimeout(() => this.lv.scrollTo(0, 120), 800);
-
-        // simulate initial Ajax
-        // setTimeout(() => {
-        //     this.rData = genData();
-        //     this.setState({
-        //         dataSource: this.state.dataSource.cloneWithRows(this.rData),
-        //         isLoading: false,
-        //     });
-        // }, 600);
         const { data: datalist } = await request.get('publish/list', {
             params: {
                 page: 1,
                 size: 100
             }
         })
-        // console.log(datalist.data[0].photoImg);
         console.log(datalist);
         datalist.data.forEach((item) => {
             item.photoImg = `http://10.3.140.198:2005/duitang_img/${item.photoImg}`
@@ -89,18 +49,8 @@ class Aidou extends React.Component {
         });
     }
 
-    // If you use redux, the data maybe at props, you need use `componentWillReceiveProps`
-    // componentWillReceiveProps(nextProps) {
-    //   if (nextProps.dataSource !== this.props.dataSource) {
-    //     this.setState({
-    //       dataSource: this.state.dataSource.cloneWithRows(nextProps.dataSource),
-    //     });
-    //   }
-    // }
-
     onEndReached = (event) => {
-        // load new data
-        // hasMore: from backend data, indicates whether it is the last page, here is false
+        // le: from backend data, indicates whether it is the last page, here is false
         if (this.state.isLoading && !this.state.hasMore) {
             return;
         }
@@ -116,24 +66,9 @@ class Aidou extends React.Component {
     }
 
     render() {
-        // const separator = (sectionID, rowID) => (
-        //     <div
-        //         key={`${sectionID}-${rowID}`}
-        //         style={{
-        //             backgroundColor: '#F5F5F9',
-        //             height: 8,
-        //             borderTop: '1px solid #ECECED',
-        //             borderBottom: '1px solid #ECECED',
-        //         }}
-        //     />
-        // );
-        // let index = data.length - 1;
+        
         const row = (rowData, sectionID, rowID) => {
             // console.log('rowData', rowData, 'sectionID', sectionID, rowID);
-            // if (index < 0) {
-            //     index = data.length - 1;
-            // }
-            // const obj = data[index--];
             return (
                 <div key={rowID} className='boxs' style={{ display: 'flex', flexDirection: 'row', width: '169.5px', }}>
                     <div  >
@@ -178,8 +113,6 @@ class Aidou extends React.Component {
                             }}>
                                 <img src={rowData.sender.avatar} style={{
                                     backgroundSize: '100%',
-                                    // display:'inline-block',
-                                    // float: 'left',
                                     width: '30px',
                                     height: '30px',
                                     borderRadius: '100%',
@@ -188,7 +121,6 @@ class Aidou extends React.Component {
                                 </img>
                                 <div style={{
                                     textAlign: 'center',
-                                    // float: 'right',
                                     marginLeft: '8px',
                                     display: 'flex',
                                     overflow: 'hidden',
@@ -233,7 +165,6 @@ class Aidou extends React.Component {
                     {this.state.isLoading ? 'Loading...' : 'Loaded'}
                 </div>)}
                 renderRow={row}
-                // renderSeparator={separator}
                 className="am-list"
                 pageSize={4}
                 useBodyScroll
@@ -246,6 +177,6 @@ class Aidou extends React.Component {
     }
 }
 
-export default Aidou
+export default List
 
 
