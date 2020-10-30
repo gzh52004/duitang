@@ -33,14 +33,14 @@ export function withUser(MyComponent){
     // }
     return function OuterComponent(props){console.log('withUser.OuterComponent.props',props)
         // 获取本地存储信息
-        let currentUser = localStorage.getItem('currentUser');
+        let userInfo = localStorage.getItem('userInfo');
         try{
-            currentUser = JSON.parse(currentUser)
+            userInfo = JSON.parse(userInfo)
         }catch(err){
-            currentUser = {}
+            userInfo = {}
         }
-        console.log('withUser.currentUser',currentUser);
-        return <MyComponent {...props} currentUser={currentUser} />
+        console.log('withUser.userInfo',userInfo);
+        return <MyComponent {...props} userInfo={userInfo} />
     }
  }
 
@@ -53,8 +53,8 @@ export function withAuth(InnerComponent){
         componentDidMount(){
         }
         render(){console.log('withAuth.props',this.props)
-            const {currentUser,location:{pathname}} = this.props;
-            if(currentUser){
+            const {userInfo,location:{pathname}} = this.props;
+            if(userInfo){
                  // 用户登录后显示内容
                 return <InnerComponent {...this.props} />
             }else{

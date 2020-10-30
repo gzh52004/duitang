@@ -7,11 +7,14 @@ import {
     Toast,
     Picker,
     DatePicker,
+    NavBar,
+    Icon
 } from "antd-mobile";
 import { createForm } from "rc-form";
 import ChinaLocation from "china-location";
 
 import "./index.scss";
+import {withAuth} from '@/utils/hoc';
 
 // 行政区三级联动数据显示处理
 import districtData from "@/assets/location/index.json";
@@ -124,6 +127,14 @@ class Modification extends React.Component {
 
         return (
             <section className="modification">
+                <NavBar
+                mode="light"
+                icon={<Icon type="left" />}
+                onLeftClick={() => {
+                    this.props.history.push("/mine");
+                }}
+                rightContent={[<Icon key="1" type="ellipsis" />]}
+                ></NavBar>
                 <WingBlank>
                     <ImagePicker
                         files={files}
@@ -223,4 +234,7 @@ class Modification extends React.Component {
         );
     }
 }
+
+Modification = withAuth(Modification)
+
 export default createForm()(Modification);
