@@ -3,6 +3,7 @@ import React from 'react'
 import { Carousel, WingBlank, Grid } from 'antd-mobile';
 
 import '@/views/Main/index.scss'
+import Lazy from'./lazy.js'
 import list1 from './../../assets/images/list1.png'
 import list2 from './../../assets/images/list2.png'
 import list3 from './../../assets/images/list3.png'
@@ -136,7 +137,7 @@ class Main extends React.Component {
             })
           } */}
 
-          
+          <Lazy></Lazy>
         </div>
       
 

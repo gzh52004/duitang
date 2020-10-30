@@ -1,16 +1,19 @@
 import React from 'react'
-import '@/views/Emoticon/index.scss'
+import '@/views/Avatar/index.scss'
 
-const Emoticon = function () {
+const Avatar = function () {
 
     return (
         <div>
             <div className="css-o8bgc8 eas58qq0"></div>
-            表情
+            头像
         </div>
     )
 }
-export default Emoticon
+export default Avatar
+
+
+
 
 
 
