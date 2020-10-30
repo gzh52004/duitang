@@ -31,7 +31,7 @@ export function withUser(MyComponent){
         //     return <MyComponent {...this.props} userInfo={this.state.userInfo}>
         // }
     // }
-    return function OuterComponent(props){console.log('withUser.OuterComponent.props',props)
+    return function OuterComponent(props){ //console.log('withUser.OuterComponent.props',props)
         // 获取本地存储信息
         let userInfo = localStorage.getItem('userInfo');
         try{
@@ -39,7 +39,7 @@ export function withUser(MyComponent){
         }catch(err){
             userInfo = {}
         }
-        console.log('withUser.userInfo',userInfo);
+        // console.log('withUser.userInfo',userInfo);
         return <MyComponent {...props} userInfo={userInfo} />
     }
  }
@@ -52,7 +52,7 @@ export function withAuth(InnerComponent){
     class OuterComponent extends React.Component{
         componentDidMount(){
         }
-        render(){console.log('withAuth.props',this.props)
+        render(){ // console.log('withAuth.props',this.props)
             const {userInfo,location:{pathname}} = this.props;
             if(userInfo){
                  // 用户登录后显示内容

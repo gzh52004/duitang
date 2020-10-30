@@ -15,7 +15,6 @@ import {
 import { createForm } from "rc-form";
 
 import "./index.scss";
-import User from "@/api/user";
 import userAction from '@/store/actions/user';
 
 function Login(props) {
