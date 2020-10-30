@@ -2,6 +2,8 @@ import React from "react";
 import { Table, Space,  Button,Modal,Form, Input} from 'antd';
 import request from '@/utils/request'
 import './index.scss'
+import {IMGIP} from '../../../config.json'
+
 const { Column } = Table;
 class User extends React.Component {
   state = {
@@ -95,7 +97,7 @@ Add=()=>{
         <Table dataSource={data}>
           <Column title="姓名" dataIndex="username" key="username" />
           <Column title="注册时间" dataIndex="addTime" key="addTime" />
-          <Column title="头像" key="_id" render={(text, record, index) => (<img src={record.avatar} alt="" className='img' />)
+          <Column title="头像" key="_id" render={(text, record, index) => (<img src={`${IMGIP}duitang_img/${record.avatar}`} alt="" className='img' />)
           }/>
           <Column
             title="操作"
