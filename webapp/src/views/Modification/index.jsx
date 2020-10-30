@@ -90,6 +90,7 @@ const now = new Date(nowTimeStamp);
 
 class Modification extends React.Component {
     state = {
+        username:'666',
         files: data,
         gender: ["男"],
         time:now
@@ -108,12 +109,32 @@ class Modification extends React.Component {
         this.setState({
             gender,
         });
-        console.log(gender);
+        // console.log(gender);
     };
 
+    componentDidMount(){
+        let {userInfo:{result,token}} = this.props;
+        
+        const data = [
+            {
+                url:`http://10.3.140.198:2005/duitang_img/${result.avatar}`,
+                id: result._id,
+            },
+        ]
+
+        this.setState({
+            files: data,
+            username:result.username
+        })
+
+    }
+
     render() {
+        // console.log('modification.props',this.props);
         const { files } = this.state;
         let { getFieldProps, getFieldError } = this.props.form;
+        
+
 
         const validateUserName = (rule, value, callback) => {
             // 不允许为空
@@ -133,7 +154,6 @@ class Modification extends React.Component {
                 onLeftClick={() => {
                     this.props.history.push("/mine");
                 }}
-                rightContent={[<Icon key="1" type="ellipsis" />]}
                 ></NavBar>
                 <WingBlank>
                     <ImagePicker
@@ -163,6 +183,8 @@ class Modification extends React.Component {
                         onErrorClick={() => {
                             Toast.info(getFieldError("username"), 2);
                         }}
+                        value={this.state.username}
+                        editable={false}
                         clear
                     >
                         昵称

@@ -27,6 +27,7 @@ const userReducer = function(state=initState,action){
         /* 登出 */
         case 'logout':
             localStorage.removeItem('userInfo');
+            window.location.hash = '/login'
             return {
                 userInfo:{},
                 isLogin:false
