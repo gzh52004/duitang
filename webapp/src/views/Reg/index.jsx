@@ -11,8 +11,10 @@ import {
     WingBlank,
 } from "antd-mobile";
 import { createForm } from "rc-form";
+import SHA256 from 'crypto-js/sha256'
 
 import './index.scss'
+import User from "@/api/user";
 
 function Reg(props){
 
@@ -20,8 +22,6 @@ function Reg(props){
 
     /* 正则校验：用户名 */
     const validateUserName = (rule, value, callback) => {
-
-        /* 发送请求验证用户名是否存在 */
 
         // 仅允许输入英文和数字
         const reg = /^\w{4,8}$/;
@@ -42,6 +42,30 @@ function Reg(props){
             callback(new Error("仅允许英文、数字长度为4到8"));
         }
     };
+
+    /* 注册 */
+    const handleClick = () => {
+        props.form.validateFields({ force: true }, async(error) => {
+            if (!error) {
+                let values = props.form.getFieldsValue();
+                // 加密
+                values.password = SHA256(values.password).toString();
+                values.permissions = 'user'
+
+                // 发送注册请求
+                let {data} = await User.reg(values);
+                if(data.code === 1){
+                    Toast.info("注册成功！");
+                    props.history.push({
+                        pathname:'login'
+                    })
+                }
+
+            } else {
+                Toast.info("填写数据格式不正确");
+            }
+        });
+    }
 
     return (
         <>
@@ -114,6 +138,7 @@ function Reg(props){
                 <WhiteSpace size="lg" />
                 <Button
                     type="warning"
+                    onClick={handleClick}
                 >
                     注册
                 </Button>
