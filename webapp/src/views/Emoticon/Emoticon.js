@@ -1,16 +1,16 @@
 import React from 'react'
-import '@/views/Aidou/index.scss'
+import '@/views/Emoticon/index.scss'
 
-const Aidou = function () {
+const Emoticon = function () {
 
     return (
         <div>
             <div className="css-o8bgc8 eas58qq0"></div>
-            爱豆
+            表情
         </div>
     )
 }
-export default Aidou
+export default Emoticon
 
 
 
