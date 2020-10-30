@@ -114,7 +114,14 @@ class Aidou extends React.Component {
             });
         }, 1000);
     }
+    detailPages = (_id) => {
+        console.log(this.props);
+        this.props.history.push({
+            pathname: '/detailpages/' + _id,
+            // search: '?id='+id,
 
+        })
+    }
     render() {
         // const separator = (sectionID, rowID) => (
         //     <div
@@ -137,7 +144,8 @@ class Aidou extends React.Component {
             return (
                 <div key={rowID} className='boxs' style={{ display: 'flex', flexDirection: 'row', width: '169.5px', }}>
                     <div  >
-                        <div style={{
+                        <div onClick={this.detailPages.bind(this, rowData._id)} 
+                        style={{
                             width: '169px',
                             height: '267px',
                             left: '181px',
@@ -146,7 +154,7 @@ class Aidou extends React.Component {
                             backgroundColor: 'white',
                             borderRadius: '0 0 5px 5px '
                         }}>
-                            <a href='' style={{ width: '169px' }}>
+                            <a href='' style={{ width: '169.5px' }} >
                                 <img src={rowData.photoImg} alt="" style={{ height: '169.5px', width: '169.5px', display: 'block', objectFit: 'cover', objectPosition: 'center center', borderRadius: '5px 5px 0 0' }}>
 
                                 </img>

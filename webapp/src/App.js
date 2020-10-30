@@ -25,6 +25,7 @@ import Wall from '@/views/Wall/Wall'
 import connect from '@/views/Avatar/Avatar'
 import Emoticon from '@/views/Emoticon/Emoticon'
 import Footer from '@/views/Footer/Footer'
+import Detailpages from '@/views/Detailpages/Detailpages';
 import Login from '@/views/Login';
 import Reg from '@/views/Reg';
 import Mine from '@/views/Mine';
@@ -126,7 +127,7 @@ let App = function (props) {
         </Tabs>
         <WhiteSpace />
       </div>
-      <div style={{ height: '1000px', marginTop: '97px' }}>
+      <div style={{/*  height: '1000px',  */marginTop: '97px' }}>
       {/* <Suspense fallback={<div>loading...</div>}> */}
         <Switch >
           {
@@ -136,6 +137,7 @@ let App = function (props) {
           <Route key='reg' path='/reg' component={Reg}></Route>
           <Route key='mine' path='/mine' component={Mine}></Route>
           <Route key='modification' path='/modification' component={Modification}></Route>
+          <Route key='detailpages' path='/detailpages/:id' component={Detailpages}></Route>
           <Route path='/notfound' render={() => <div>404</div>} />
           <Redirect from='/' to='/main' exact />
           <Redirect to='/notfound' />
@@ -150,3 +152,4 @@ let App = function (props) {
 }
 
 export default App;
+

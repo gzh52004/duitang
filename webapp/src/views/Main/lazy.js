@@ -2,6 +2,7 @@ import React from 'react'
 import { ListView } from 'antd-mobile';
 import request from './../../utils/request'
 import '@/views/Main/index.scss'
+import { Route, Redirect, Switch, Link, NavLink, withRouter, useHistory } from 'react-router-dom';
 
 
 const NUM_ROWS = 20;
@@ -16,6 +17,7 @@ function genData(pIndex = 0) {
     return dataBlob;
 }
 
+@withRouter
 class List extends React.Component {
     constructor(props) {
         super(props);
@@ -48,7 +50,17 @@ class List extends React.Component {
             dataSource: this.state.dataSource.cloneWithRows(datalist.data)
         });
     }
+    detailPages = (_id) => {
+        // console.log(e);
+        // e.stopPropagation()
+        console.log('lazy.props', this.props);
+        // console.log(_id);
+        this.props.history.push({
+            pathname: '/detailpages/' + _id,
+            // search: '?id='+id,
 
+        })
+    }
     onEndReached = (event) => {
         // le: from backend data, indicates whether it is the last page, here is false
         if (this.state.isLoading && !this.state.hasMore) {
@@ -66,22 +78,25 @@ class List extends React.Component {
     }
 
     render() {
-        
+
         const row = (rowData, sectionID, rowID) => {
             // console.log('rowData', rowData, 'sectionID', sectionID, rowID);
             return (
                 <div key={rowID} className='boxs' style={{ display: 'flex', flexDirection: 'row', width: '169.5px', }}>
                     <div  >
-                        <div style={{
-                            width: '169px',
-                            height: '267px',
-                            left: '181px',
-                            top: ' 0px',
-                            margin: '15px 0 0 0',
-                            backgroundColor: 'white',
-                            borderRadius: '0 0 5px 5px '
-                        }}>
-                            <a href='' style={{ width: '169px' }}>
+                        <div onClick={
+                            this.detailPages.bind(this, rowData._id)
+                        }
+                            style={{
+                                width: '169px',
+                                height: '267px',
+                                left: '181px',
+                                top: ' 0px',
+                                margin: '15px 0 0 0',
+                                backgroundColor: 'white',
+                                borderRadius: '0 0 5px 5px '
+                            }}>
+                            <div style={{ width: '169px' }}>
                                 <img src={rowData.photoImg} alt="" style={{ height: '169.5px', width: '169.5px', display: 'block', objectFit: 'cover', objectPosition: 'center center', borderRadius: '5px 5px 0 0' }}>
 
                                 </img>
@@ -102,7 +117,7 @@ class List extends React.Component {
                                         fontSize: '12px'
                                     }}>☆{rowData.hot_count}</div>
                                 </div>
-                            </a>
+                            </div>
                             <div style={{
                                 lineHeight: '30px',
                                 padding: '8px',
