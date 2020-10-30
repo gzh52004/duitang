@@ -1,11 +1,10 @@
-import React,{useState,useEffect,useLayoutEffect,useMemo, memo, useCallback} from "react";
+import React,{useState,useEffect,useLayoutEffect,useMemo,useCallback} from "react";
 import { Table, Tag, Space,Image,Button, message,Popconfirm,Modal,Form,Input,Row,Col,Avatar,Upload} from 'antd';
 import { UserOutlined } from '@ant-design/icons'
 
 import request from '@/utils/request'
 import {IMGIP} from '../../../config.json'
 import './index.scss'
-
 
   const initData = [
     {
@@ -38,12 +37,14 @@ const currentInit = {
   theme: "",
   _id: "",
 }
-let Publish = function(){
+let Publish = function(props){
     const [data,setData] = useState(initData)
-    const [pagination,setPagination] = useState(paginationInit)
-    const [memo,changmemo] = useState(0)
-    const [visible, setVisible] = useState(false);
-    const [currentEdit,setCurrentEdit] = useState(currentInit)
+    const [pagination,setPagination] = useState(paginationInit) // 分页数据
+    const [memo,changmemo] = useState(0) // 自定义请求依赖
+    const [visible, setVisible] = useState(false); // 模态框 显示隐藏
+    const [currentEdit,setCurrentEdit] = useState(currentInit) // 当前编辑数据
+    const [imageUrl,changeImageUrl] = useState('') // 上传图片
+    const [fromRef,changeFromRef] = useState('') // 定义from ref  把 From 的值传给 Modal
     const columns = [
       {
         title: '发布者',
@@ -106,14 +107,15 @@ let Publish = function(){
         title: 'Action',
         align:'center',
         key: 'action',
-        render: (text, record) => {
+        render: (text, record) => { // 
           return (
             <Space size="middle">
-              <Button type="primary" onClick={() => {
-                let current = record
-                setCurrentEdit(current)
+              <Button type="primary" onClick={ async () => {
+                  if(typeof fromRef.setFieldsValue == 'function'){ //  通过ref获取到form 给判断因为第一次进来是空
+                        fromRef.setFieldsValue(record) // 改变表单的值的方法
+                  }  
                 setVisible(true)
-                console.log(currentEdit,'5555')
+                setCurrentEdit(record)
               }}>编辑</Button>
               <Popconfirm placement="topRight" title='确定移除这条数据吗' onConfirm={DelPublish.bind(null,record)} okText="确定" cancelText="取消">
                 <Button type="danger">删除</Button>
@@ -173,8 +175,6 @@ let Publish = function(){
         }else{
           message.error('删除失败')
         }
-        
-        
     })
     const handleTableChange = ({current, pageSize}, filters, sorter) => {
       // console.log(sorter,'sorter,sortersortersortersorter')
@@ -186,46 +186,55 @@ let Publish = function(){
       changmemo(memo + 1)
     };
 
-    // 发布图片 ->
-    const uploadButton = (
-      <div>
-         <img className="uploadButton" src="http://10.3.140.198:2005/duitang_img/20201013185607_kcGQL.jpeg" />
-      </div>
-    );
-    const imageUrl = ''
-    function beforeUpload(file) {
+
+    function beforeUpload(file) { // 上传图片前检测是否符号规范
       const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
       if (!isJpgOrPng) {
-        message.error('You can only upload JPG/PNG file!');
+        message.error('你只能上传图片');
       }
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isLt2M) {
-        message.error('Image must smaller than 2MB!');
+        message.error('图片不能大于2M');
       }
-      console.log(isJpgOrPng,'fff',isLt2M,'5555')
-      // return isJpgOrPng && isLt2M;
-      
+      return isJpgOrPng && isLt2M;
     }
-    const handleChange = info => {
-      console.log(info,'555555354353')
+    const handleChange = info => { // 上传图片响应回调
       if (info.file.status === 'uploading') {
-
-        // this.setState({ loading: true });
         return;
       }
       if (info.file.status === 'done') {
-        // Get this url from response in real world.
-        getBase64(info.file.originFileObj, imageUrl =>
-          console.log(imageUrl,'imgege')
-          // this.setState({
-          //   imageUrl,
-          //   loading: false,
-          // }),
-        );
+        let imageUrl = info.file.response.data
+        changeImageUrl(imageUrl)
       }
     };
-    
-
+   
+    const afterClose = useCallback(()=>{ // 模态框关闭回调
+      changeImageUrl('')
+    })
+    const onOk = useCallback( ()=>{ // 对话框点击确定回调
+        fromRef.validateFields().then(async (valuse)=>{ // 通过ref拿 From组件里的值
+          console.log(valuse,'4444')
+          let reqData = null
+          if(imageUrl){
+            reqData = {
+              ...valuse,
+              photoImg : imageUrl || currentEdit.photoImg.props.src
+            }
+          }else{
+            reqData = {...valuse}
+          }
+            const {data} = await request.put('publish/edit/' + currentEdit._id,{
+              ...reqData
+            })
+            changmemo(memo + 1)
+            setVisible(false)
+        })
+    })
+    const onCancel = useCallback(()=>{ // 模态框 取消回调
+        // setCurrentEdit(currentInit) // 回到初始值 方便一次更新 
+        setVisible(false)
+    })
+  
     return(
         <div className="TableStyle">
             <Table columns={columns} 
@@ -237,9 +246,10 @@ let Publish = function(){
                   title="发布内容编辑"
                   centered
                   visible={visible}
-                  onOk={() => setVisible(false)}
-                  onCancel={() => setVisible(false)}
+                  onOk={onOk}
+                  onCancel={onCancel}
                   width={1000}
+                  afterClose={afterClose}
                 >
                   <Row>
                     <Col span={4} align='center'>
@@ -250,30 +260,31 @@ let Publish = function(){
                     <Form
                         // {...layout}
                         name="basic"
-                        initialValues={{ remember: true }}
-                        // onFinish={onFinish}
+                        initialValues={{ // 默认值为第一次点击的值 之后的值要通过 setFieldsValue方法来修改
+                          Type : currentEdit.Type,
+                          theme :  currentEdit.theme,
+                          publishTitle:currentEdit.publishTitle
+                        }}
+                        ref={el => changeFromRef(el)}
                       >
                         <Form.Item
                           label="类型"
                           name="Type"
-                          initialValue={currentEdit.Type}
-                          // rules={[{ required: true, message: 'Please input your username!' }]}
+                          rules={[{ required: true, message: '不能为空' }]}
                         >
                           <Input/>
                         </Form.Item>
                         <Form.Item
                           label="主题"
                           name="theme"
-                          initialValue={currentEdit.theme}
-                          // rules={[{ required: true, message: 'Please input your password!' }]}
+                          rules={[{ required: true, message: '不能为空' }]}
                         >
                           <Input />
                         </Form.Item>
                         <Form.Item
                           label="内容"
                           name="publishTitle"
-                          initialValue={currentEdit.publishTitle}
-                          // rules={[{ required: true, message: 'Please input your password!' }]}
+                          rules={[{ required: true, message: '不能为空' }]}
                         >
                           <Input />
                         </Form.Item>
@@ -281,19 +292,22 @@ let Publish = function(){
                       </Form>
                     </Col>
                     <Col span={8}  align='center'>
+                      <p>发布内容</p>
                     <Upload
                         name="avatar"
                         listType="picture-card"
                         className="avatar-uploader"
                         showUploadList={false}
-                        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                        action={`${IMGIP}upload/headphoto`}
                         beforeUpload={beforeUpload}
                         onChange={handleChange}
                       >
-                {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+                {imageUrl ? <img src={`${IMGIP}duitang_img/${imageUrl}` } alt="avatar" style={{ width: '100%' }} /> 
+                : <img src={currentEdit.photoImg.props.src} alt="avatar" style={{ width: '100%' }} 
+                />}
               </Upload>
                     </Col>
-                 </Row>
+                </Row>
               </Modal>
         </div>
     )

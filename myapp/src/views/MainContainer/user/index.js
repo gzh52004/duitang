@@ -2,6 +2,8 @@ import React from "react";
 import { Table, Space, Button, Modal, Form, Input, Popconfirm, message } from 'antd';
 import request from '@/utils/request'
 import './index.scss'
+import {IMGIP} from '../../../config.json'
+
 const { Column } = Table;
 class User extends React.Component {
   state = {
