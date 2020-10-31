@@ -1,8 +1,12 @@
 import React, { useState, Suspense, lazy,useReducer} from 'react'
 import { Tabs, WhiteSpace } from 'antd-mobile';
-import { Route, Redirect, Switch, Link, NavLink, withRouter, useHistory } from 'react-router-dom';
-
+import { Route, Redirect, Switch, Link, NavLink, withRouter, useHistory, Router } from 'react-router-dom';
+import {tabs,routes} from'@/router/index.js'
 import '@/App.scss';
+import Nav from '@/views/Nav/Nav'
+import Footer from '@/views/Footer/Footer'
+import Detailpages from '@/views/Detailpages/Detailpages';
+
 // const Nav = lazy(() => import("@/views/Nav/Nav"));
 // const Main = lazy(() => import("@/views/Main/Main"));
 // const Aidou = lazy(() => import("@/views/Aidou/Aidou"));
@@ -14,49 +18,6 @@ import '@/App.scss';
 // const Reg = lazy(() => import("@/views/Reg"));
 // const Mine = lazy(() => import("@/views/Mine"));
 // const Modification = lazy(() => import("@/views/Modification"));
-
-
-
-
-import Nav from '@/views/Nav/Nav'
-import Main from '@/views/Main/Main'
-import Aidou from '@/views/Aidou/Aidou'
-import Wall from '@/views/Wall/Wall'
-import connect from '@/views/Avatar/Avatar'
-import Emoticon from '@/views/Emoticon/Emoticon'
-import Footer from '@/views/Footer/Footer'
-import Detailpages from '@/views/Detailpages/Detailpages';
-import Login from '@/views/Login';
-import Reg from '@/views/Reg';
-import Mine from '@/views/Mine';
-import Modification from '@/views/Modification';
-
-let tabs = [
-  { title: "首页", query: "main", component: Main, path: '/main' ,num:'0'},
-  { title: "爱豆", query: "celebrity", component: Aidou, path: '/aidou' ,num:'1'},
-  { title: "壁纸", query: "wallpaper", component: Wall, path: '/wall' ,num:'2'},
-  { title: "头像", query: "avatar", component: connect, path: '/avatar' ,num:'3'},
-  { title: "表情", query: "emoticon", component: Emoticon, path: '/emoticon' ,num:'4'},
-  { title: "影视", query: "movie_music_books", component: Main, path: '/main' },
-  { title: "动漫", query: "animation", component: Main, path: '/main' },
-  { title: "动图", query: "gif", component: Main, path: '/main' },
-  { title: "素材", query: "material", component: Main, path: '/main' },
-  { title: "萌宠", query: "moe", component: Main, path: '/main' },
-  { title: "绘画", query: "painting", component: Main, path: '/main' },
-  { title: "手工", query: "diy", component: Main, path: '/main' },
-  { title: "穿搭", query: "fashion", component: Main, path: '/main' },
-  { title: "美妆", query: "beauty", component: Main, path: '/main' },
-  { title: "婚礼", query: "wedding", component: Main, path: '/main' },
-  { title: "美食", query: "food", component: Main, path: '/main' },
-  { title: "家居", query: "Home", component: Main, path: '/main' },
-  { title: "旅行", query: "travel", component: Main, path: '/main' },
-  { title: "摄影", query: "photography", component: Main, path: '/main' },
-  { title: "植物", query: "plant", component: Main, path: '/main' },
-  { title: "生活百科", query: "tips", component: Main, path: '/main' },
-  { title: "人文艺术", query: "art", component: Main, path: '/main' },
-  { title: "设计", query: "design", component: Main, path: '/main' },
-  { title: "古风", query: "chinoiserie", component: Main, path: '/main' },
-]
 const initState={
   initialPage:0
 }
@@ -101,17 +62,13 @@ let App = function (props) {
       <div style={{ position: 'fixed', top: 0, zIndex: 999 }}>
         <Nav style={{ position: 'fixed', boxSizing: 'border-box' }} />
         <WhiteSpace style={{ position: 'fixed' }} />
-        {/* <div classtitle="css-o8bgc8 eas58qq0"></div> */}
         <Tabs tabs={tabs}
-          initialPage={initialPage}
+          // initialPage={initialPage}
           animated={false}
           useOnPan={false}
           onTabClick={
             changeTabs
           }
-          /* onChange={
-            keepTabs
-          } */
           style={{
             overflow: 'hidden',
           }}
@@ -133,10 +90,9 @@ let App = function (props) {
           {
             tabs.map(item => <Route key={item.query} path={item.path} component={item.component} />)
           }
-          <Route key='login' path='/login' component={Login}></Route>
-          <Route key='reg' path='/reg' component={Reg}></Route>
-          <Route key='mine' path='/mine' component={Mine}></Route>
-          <Route key='modification' path='/modification' component={Modification}></Route>
+          {
+            routes.map(item=><Route key={item.query} path={item.path} component={item.component} />)
+          }
           <Route key='detailpages' path='/detailpages/:id' component={Detailpages}></Route>
           <Route path='/notfound' render={() => <div>404</div>} />
           <Redirect from='/' to='/main' exact />

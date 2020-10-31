@@ -1,18 +1,20 @@
 import React from 'react'
 
-import { Button } from 'antd-mobile';
+// import { Button } from 'antd-mobile';
 
 import '@/views/Footer/index.scss'
-import Login from '@/views/Login/index.jsx'
-import Reg from '@/views/Reg/index.jsx'
-import { Router,useHistory } from 'react-router-dom';
+import But from './Button.js'
+// import { Button } from 'antd-mobile'
+// import Login from '@/views/Login/index.jsx'
+// import Reg from '@/views/Reg/index.jsx'
+// import { Router,useHistory } from 'react-router-dom';
 
-let routes = [
-    { title: "登录", query: "login", component: Login, path: '/login' },
-    { title: "注册", query: "reg", component: Reg, path: '/reg' }
-,]
+// let routes = [
+//     { title: "登录", query: "login", component: Login, path: '/login' },
+//     { title: "注册", query: "reg", component: Reg, path: '/reg' }
+// ,]
 const Footer = function (props) {
-    let history = useHistory();
+    /* let history = useHistory();
       let changeTabs = (routers) => {
           console.log(routers);
           if(routers.title=="登录"){
@@ -21,7 +23,7 @@ const Footer = function (props) {
             history.push(routers.path)
           }
         
-      }
+      } */
     return (
         <div className='footer' style={{ padding: '11px', }}>
             <div>
@@ -29,7 +31,7 @@ const Footer = function (props) {
 
                 <div style={{ width: '160px', height: '46px', fontSize: '16px', fontFamily: 'PingFangSC-Semibold', fontWeight: '600', color: 'rgb(68, 68, 68)', lineHeight: '23px', marginLeft: '9px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', display: 'inline-block', }}><div>有什么美得不可方物的</div><div>神仙壁纸？</div>
                 </div>
-                <div style={{ height: '46px', display: 'flex', float: 'right', boxSizing: 'border-box', alignItems: 'center', flexDirection: 'row' }}>
+                {/* <div style={{ height: '46px', display: 'flex', float: 'right', boxSizing: 'border-box', alignItems: 'center', flexDirection: 'row' }}>
                     <Button type="primary" size='small' inline style={{ width: "60px", borderRadius: '10px' }} onClick={
                         () => {
                             changeTabs(routes[0])
@@ -41,7 +43,8 @@ const Footer = function (props) {
                             changeTabs(routes[1])
                         }
                     }>注册</Button>
-                </div>
+                </div> */}
+                <But></But>
             </div>
         </div>
     )

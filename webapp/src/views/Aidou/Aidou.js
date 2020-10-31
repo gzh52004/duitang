@@ -73,7 +73,8 @@ class Aidou extends React.Component {
         const { data: datalist } = await request.get('publish/list', {
             params: {
                 page: 1,
-                size: 100
+                Type:'celebrity',
+                size: 50
             }
         })
         // console.log(datalist.data[0].photoImg);
