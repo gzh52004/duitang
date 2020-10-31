@@ -1,9 +1,10 @@
 import React from "react";
 import { Table, Space, Button, Modal, Form, Input, Popconfirm, message } from 'antd';
+import moment from "moment"
 import request from '@/utils/request'
 import './index.scss'
 import {IMGIP} from '../../../config.json'
-
+import '../../../../node_modules/moment/locale/zh-cn';
 const { Column } = Table;
 class User extends React.Component {
   state = {
@@ -24,6 +25,10 @@ class User extends React.Component {
         size: 20,
         page: 1
       }
+    })
+
+    data.data.forEach((user)=>{
+      user.addTime = moment(user.addTime).format("lll")  
     })
     this.setState({
       data: data.data

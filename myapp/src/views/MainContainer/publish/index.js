@@ -1,9 +1,10 @@
 import React,{useState,useEffect,useLayoutEffect,useMemo,useCallback} from "react";
-import { Table, Tag, Space,Image,Button, message,Popconfirm,Modal,Form,Input,Row,Col,Avatar,Upload} from 'antd';
+import { Table, Tag, Space,Image,Button, message,Popconfirm,Modal,Form,Input,Row,Col,Avatar,Upload,Dropdown,Menu} from 'antd';
 import { UserOutlined } from '@ant-design/icons'
 
 import request from '@/utils/request'
 import {IMGIP} from '../../../config.json'
+import DropdownList from './dropdown'
 import './index.scss'
 
   const initData = [
@@ -45,128 +46,34 @@ let Publish = function(props){
     const [currentEdit,setCurrentEdit] = useState(currentInit) // 当前编辑数据
     const [imageUrl,changeImageUrl] = useState('') // 上传图片
     const [fromRef,changeFromRef] = useState('') // 定义from ref  把 From 的值传给 Modal
-    const columns = [
-      {
-        title: '发布者',
-        dataIndex: 'sender',
-        align:'center',
-        key: 'sender',
-        render: text => <a>{text}</a>,
-        width: '100px',
-        
-      },
-      {
-        title: '头像',
-        dataIndex: 'headPhoto',
-        align:'center',
-        key: 'headPhoto',
-        width: '70px',
-      },
-      {
-        title: '发布类型',
-        dataIndex: 'Type',
-        align:'center',
-        key: 'Type',
-        width: '200px',
-      },
-      {
-        title: '发布主题',
-        align:'center',
-        key: 'theme',
-        dataIndex: 'theme',
-      },
-      {
-          title: '发布内容',
-          align:'center',
-          key: 'publishTitle',
-          dataIndex: 'publishTitle',
-      },
-      {
-          title: '内容图片',
-          align:'center',
-          key: 'photoImg',
-          dataIndex: 'photoImg',
-      },
-      {
-          title: '点赞数量',
-          align:'center',
-          key: 'like_count',
-          dataIndex: 'like_count',
-          defaultSortOrder: 'descend',
-          sorter: (a, b) => a.like_count - b.like_count,
-      },
-      {
-          title: '热度',
-          align:'center',
-          key: 'hot_count',
-          dataIndex: 'hot_count',
-          defaultSortOrder: 'descend',
-          sorter: (a, b) => a.hot_count - b.hot_count,
-      },
-      {
-        title: 'Action',
-        align:'center',
-        key: 'action',
-        render: (text, record) => { // 
-          return (
-            <Space size="middle">
-              <Button type="primary" onClick={ async () => {
-                  if(typeof fromRef.setFieldsValue == 'function'){ //  通过ref获取到form 给判断因为第一次进来是空
-                        fromRef.setFieldsValue(record) // 改变表单的值的方法
-                  }  
-                setVisible(true)
-                setCurrentEdit(record)
-              }}>编辑</Button>
-              <Popconfirm placement="topRight" title='确定移除这条数据吗' onConfirm={DelPublish.bind(null,record)} okText="确定" cancelText="取消">
-                <Button type="danger">删除</Button>
-              </Popconfirm>
-              
-            </Space>
-          )
-      },
-      },
-    ];
-    useMemo(async()=>{
+    const [currentClassify,ChangeCurrentClassify] = useState(null)
+  
+ 
+   useMemo(async()=>{
       let result = await request.get('publish/list',{
         params:{
           size : 6,
-          page : pagination.current
+          page : pagination.current,
+          Type : currentClassify
         }
       })
-      console.log("result",result);
-        let arr = result.data.data.map((item,index)=>{
-            return {
-                key: index + '',
-                sender: item.sender.username,
-                headPhoto: <Image
-                width={50}
-                height={50}
-                src={`${IMGIP}duitang_img/${item.sender.avatar}`}
-              />,
-                Type: item.Type,
-                publishTitle : item.publishTitle,
-                photoImg :<Image
-                width={100}
-                height={100}
-                src={`${IMGIP}duitang_img/${item.photoImg}`}
-              />
-                ,
-                like_count : item.like_count,
-                hot_count : item.hot_count,
-                theme: item.theme,
-                _id : item._id
-            }
-        })
         setPagination({
           ...pagination,
-          total : result.data.total 
+          total : result.data.total
         })
-        console.log(pagination,'444444')
-        setData(arr)
+        setData(ajaxFormat(result.data.data))
     },[memo])
+ 
     useEffect(()=>{
-        // changmemo(memo + 1)
-    },[])
+      console.log(data[0],'3333')
+      if(data[0] == undefined){
+        setPagination({
+          ...pagination,
+          current : 1
+        })
+        // changeClassify()
+      }
+    },[data])
     const DelPublish = useCallback(async (record)=>{
         const {data} = await request.delete(`publish/delete/${record._id}`)
         if(data.code === 1){
@@ -234,7 +141,116 @@ let Publish = function(props){
         // setCurrentEdit(currentInit) // 回到初始值 方便一次更新 
         setVisible(false)
     })
-  
+    const changeClassify = useCallback( async (query)=>{ // 按分类请求
+      
+      let total = await request.get('publish/list',{params:{Type:query}})
+      let totalPage = total.data.total / 6
+      Math.ceil(totalPage)
+      let {data} = await request.get('publish/list',{
+          params:{
+            size : 6,
+            page : pagination.current > totalPage ? 1 : pagination.current,
+            Type : query
+          }
+      })
+      setData(ajaxFormat(data.data))   
+      if(pagination.current > totalPage){
+        setPagination({
+          ...pagination,
+          total : data.total ,
+          current : 1
+        })
+      }else{
+        setPagination({
+          ...pagination,
+          total : data.total ,
+        })
+      }
+    
+      ChangeCurrentClassify(query)   
+   
+    })
+    const columns = [
+      {
+        title: '发布者',
+        dataIndex: 'sender',
+        align:'center',
+        key: 'sender',
+        render: text => <a>{text}</a>,
+        width: '100px',
+        
+      },
+      {
+        title: '头像',
+        dataIndex: 'headPhoto',
+        align:'center',
+        key: 'headPhoto',
+        width: '70px',
+      },
+      {
+        title: <DropdownList changeClassify={changeClassify}></DropdownList>,
+        dataIndex: 'Type',
+        align:'center',
+        key: 'Type',
+        width: '200px',
+      },
+      {
+        title: '发布主题',
+        align:'center',
+        key: 'theme',
+        dataIndex: 'theme',
+      },
+      {
+          title: '发布内容',
+          align:'center',
+          key: 'publishTitle',
+          dataIndex: 'publishTitle',
+      },
+      {
+          title: '内容图片',
+          align:'center',
+          key: 'photoImg',
+          dataIndex: 'photoImg',
+      },
+      {
+          title: '点赞数量',
+          align:'center',
+          key: 'like_count',
+          dataIndex: 'like_count',
+          defaultSortOrder: 'descend',
+          sorter: (a, b) => a.like_count - b.like_count,
+      },
+      {
+          title: '热度',
+          align:'center',
+          key: 'hot_count',
+          dataIndex: 'hot_count',
+          defaultSortOrder: 'descend',
+          sorter: (a, b) => a.hot_count - b.hot_count,
+      },
+      {
+        title: 'Action',
+        align:'center',
+        key: 'action',
+        render: (text, record) => { // 
+          return (
+            <Space size="middle">
+              <Button type="primary" onClick={ async () => {
+                  if(typeof fromRef.setFieldsValue == 'function'){ //  通过ref获取到form 给判断因为第一次进来是空
+                        fromRef.setFieldsValue(record) // 改变表单的值的方法
+                  }  
+                setVisible(true)
+                setCurrentEdit(record)
+              }}>编辑</Button>
+              <Popconfirm placement="topRight" title='确定移除这条数据吗' onConfirm={DelPublish.bind(null,record)} okText="确定" cancelText="取消">
+                <Button type="danger">删除</Button>
+              </Popconfirm>
+              
+            </Space>
+          )
+      },
+      },
+    ];
     return(
         <div className="TableStyle">
             <Table columns={columns} 
@@ -312,5 +328,40 @@ let Publish = function(props){
         </div>
     )
 } 
+
+function ajaxFormat(arr){ // 格式化ajax请求
+  return arr.map((item,index)=>{
+    try{
+        return {
+          key: index + '',
+          sender: item.sender.username || 'nihao',
+          headPhoto: <Image
+          width={50}
+          height={50}
+          src={`${IMGIP}duitang_img/${item.sender.avatar}`}
+        />,
+          Type: item.Type,
+          publishTitle : item.publishTitle,
+          photoImg :<Image
+          width={100}
+          height={100}
+          src={`${IMGIP}duitang_img/${item.photoImg}`}
+        />
+          ,
+          like_count : item.like_count,
+          hot_count : item.hot_count,
+          theme: item.theme,
+          _id : item._id
+      }
+    }catch(err){
+      console.log(err,'err')
+      return {
+
+      }
+    }
+   
+
+})
+}
 
 export default Publish
