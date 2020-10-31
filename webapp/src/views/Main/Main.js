@@ -1,27 +1,10 @@
 import React from 'react'
 
 import { Carousel, WingBlank, Grid } from 'antd-mobile';
-
+import { Router, useHistory,withRouter } from 'react-router-dom';
+import {sudoku} from '@/router'
 import '@/views/Main/index.scss'
 import Lazy from'./lazy.js'
-import list1 from './../../assets/images/list1.png'
-import list2 from './../../assets/images/list2.png'
-import list3 from './../../assets/images/list3.png'
-import list4 from './../../assets/images/list4.png'
-import list5 from './../../assets/images/list5.png'
-import list6 from './../../assets/images/list6.png'
-import list7 from './../../assets/images/list7.png'
-import list8 from './../../assets/images/list8.png'
-
-/* const Main = function () {
-
-    return (
-        <div>
-            <div className="css-o8bgc8 eas58qq0"></div>
-            首页
-        </div>
-    )
-} */
 
 /* let img=[
 {icon:require('./../../assets/images/list1.png')},
@@ -45,47 +28,38 @@ import list8 from './../../assets/images/list8.png'
   icon: img[i].icon,
   text: `name${i}`,
 })); */
+@withRouter
 class Main extends React.Component {
 
   state = {
     data: ['slideshow1', 'slideshow2', 'slideshow3', 'slideshow4', 'slideshow5'],
     imgHeight: 176,
-    listData: [
-      { icon: list1,text: '壁纸' },
-      { icon: list2,text: '壁纸' },
-      { icon: list3,text: '壁纸' },
-      { icon: list4,text: '壁纸' },
-      { icon: list5,text: '壁纸' },
-      { icon: list6,text: '壁纸' },
-      { icon: list7,text: '壁纸' },
-      { icon: list8,text: '壁纸' },
-    ],
-    textData: [
-      {
-        text: '壁纸'
-      },
-      {
-        text: '头像'
-      },
-      {
-        text: '表情'
-      },
-      {
-        text: '素材'
-      },
-      {
-        text: '爱豆'
-      },
-      {
-        text: '影视'
-      },
-      {
-        text: '动漫'
-      },
-      {
-        text: '更多分类'
-      },
-    ]
+    // textData: [
+    //   {
+    //     text: '壁纸'
+    //   },
+    //   {
+    //     text: '头像'
+    //   },
+    //   {
+    //     text: '表情'
+    //   },
+    //   {
+    //     text: '素材'
+    //   },
+    //   {
+    //     text: '爱豆'
+    //   },
+    //   {
+    //     text: '影视'
+    //   },
+    //   {
+    //     text: '动漫'
+    //   },
+    //   {
+    //     text: '更多分类'
+    //   },
+    // ]
   }
   componentDidMount() {
     // simulate img loading
@@ -95,6 +69,11 @@ class Main extends React.Component {
       });
     }, 100);
   }
+  changeTabs=(path)=>{
+    console.log('path',path);
+    console.log(this.props);
+    this.props.history.push(path)
+}
   render() {
     return (
       <div>
@@ -105,8 +84,6 @@ class Main extends React.Component {
           <Carousel
             autoplay={true}
             infinite
-          // beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
-          // afterChange={index => console.log('slide to', index)}
           >
             {this.state.data.map(val => (
               <a
@@ -119,7 +96,6 @@ class Main extends React.Component {
                   alt=""
                   style={{ width: '100%', verticalAlign: 'top' }}
                   onLoad={() => {
-                    // fire window resize event to change height
                     window.dispatchEvent(new Event('resize'));
                     this.setState({ imgHeight: 'auto' });
                   }}
@@ -129,14 +105,20 @@ class Main extends React.Component {
           </Carousel>
         </WingBlank>
         {/* 九宫格 */}
-        {/* <div className="sub-title">Carousel</div> */}
-        <Grid data={this.state.listData} hasLine={false} isCarousel onClick={_el => console.log(_el)} />
+        <Grid data={sudoku} hasLine={false} isCarousel onClick={(index)=>{
+          // console.log(index);
+          let newvalue= sudoku.filter(item=>
+            item.path==index.path
+          )
+        // console.log(newvalue);
+          this.changeTabs(newvalue[0].path)
+          }
+        } />
          {/*  {
             this.state.textData.map((item,index)=>{
             return <div style={{ width: '76px', height: '76px', backgroundColor: 'rgba(0,0,0,0.5)',alignItems: 'center', }}>{item.text}</div>
             })
           } */}
-
           <Lazy></Lazy>
         </div>
       

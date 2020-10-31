@@ -1,21 +1,6 @@
-// import React from 'react'
-// import '@/views/Wall/index.scss'
-
-// const Wall = function () {
-
-//     return (
-//         <div>
-//             <div className="css-o8bgc8 eas58qq0"></div>
-//             墙纸
-//         </div>
-//     )
-// }
-// export default Wall
-
-
 
 import React from 'react'
-import '@/views/Wall/index.scss'
+import '@/views/Television/index.scss'
 import request from './../../utils/request'
 
 import { ListView } from 'antd-mobile';
@@ -34,7 +19,7 @@ function genData(pIndex = 0) {
     return dataBlob;
 }
 
-class Wall extends React.Component {
+class Television extends React.Component {
     constructor(props) {
         super(props);
         const dataSource = new ListView.DataSource({
@@ -53,7 +38,7 @@ class Wall extends React.Component {
         const { data: datalist } = await request.get('publish/list', {
             params: {
                 page: 1,
-                Type:'wallpaper',
+                Type:'avatar',
                 size: 100
             }
         })
@@ -205,8 +190,7 @@ class Wall extends React.Component {
     }
 }
 
-export default Wall
-
+export default Television
 
 
 

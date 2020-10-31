@@ -1,6 +1,6 @@
 import React from 'react'
-import '@/views/Detailpages/index.scss'
 import request from '../../utils/request'
+import '@/views/Detailpages/index.scss'
 
 class Detailpages extends React.Component {
     state = {
