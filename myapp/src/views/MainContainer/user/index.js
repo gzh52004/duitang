@@ -6,6 +6,7 @@ import './index.scss'
 import {IMGIP} from '../../../config.json'
 import '../../../../node_modules/moment/locale/zh-cn';
 const { Column } = Table;
+
 class User extends React.Component {
   state = {
     data: [],
@@ -31,9 +32,16 @@ class User extends React.Component {
       user.addTime = moment(user.addTime).format("lll")  
     })
     this.setState({
-      data: data.data
+      data: [1,2,3,4,5,6,7,8,9,10].map(item =>{
+        return {
+          _id: item,
+          username: '测试' + item,
+          avatar: '测试' + item,
+          addTime: new Date().getTime()
+        }
+      })
     })
-    console.log(data);
+    // console.log(data);
   }
 
   // 编辑弹出框
@@ -41,14 +49,14 @@ class User extends React.Component {
   handleOkEdit = (id) => {
     this.setState({
       visible: true,
-      isAdd: true,
+      isAdd: false,
     });
     console.log(id);
-
+    
   };
   // 新增弹出框
   handleOkAdd = () => {
-    this.setState({ visible: true, isAdd: false });
+    this.setState({ visible: true, isAdd: true });
 
 
   };
@@ -57,25 +65,45 @@ class User extends React.Component {
     this.setState({ visible: false });
 
   };
-  // 新增用户
-  Add = () => {
-    this.setState({
-      visible: false,
-      isAdd: false
-    });
-  }
+  // // 新增用户
+  // Add = () => {
+  //   this.setState({
+  //     visible: false,
+  //     isAdd: false
+  //   });
+  // }
 
-  // 编辑用户
-  Edit = (id) => {
-    // console.log(id);
-    this.setState({
-      visible: false,
-      isAdd: true
-    });
-    console.log('id=',id);
-  }
+  // // 编辑用户
+  // Edit = (id) => {
+  //   // console.log(id);
+  //   this.setState({
+  //     visible: false,
+  //     isAdd: true
+  //   });
+  //   console.log('id=',id);
+  // }
+
   onFinish = values => {
     console.log('Success:', values);
+    // isAdd ? this.Edit() : this.Add()
+    console.log(this.state.isAdd)
+    if(this.state.isAdd){
+      // 添加
+      this.setState({
+        data: [...this.state.data, {
+          ...values,
+          avatar: new Date(),
+          addTime: new Date()
+        }]
+      }, _ => {
+        console.log(this.state.data)
+      })
+    } else {
+      // 修改
+    }
+    this.setState({
+      visible: false,
+    });
   };
 
   // 删除用户
@@ -120,7 +148,7 @@ class User extends React.Component {
         <Table dataSource={data} rowKey="_id">
           <Column title="姓名" dataIndex="username" />
           <Column title="注册时间" dataIndex="addTime" />
-          <Column title="头像" render={(text, record, index) => (<img src={`${IMGIP}duitang_img/${record.avatar}`} alt="" className='img' />)
+          <Column title="头像" render={(text, record, index) => (<img src={record.avatar} alt="" className='img' />)
           } />
           <Column
             title="操作"
@@ -149,26 +177,36 @@ class User extends React.Component {
         {/* 编辑弹出框 */}
         <Modal
           visible={visible}
-          title={isAdd ? '用户编辑' : '新增用户'}
+          title={isAdd ? '新增用户' : '用户编辑'}
           // onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={[
             <Button key="back" onClick={this.handleCancel}>
               取消
             </Button>,
-            <Button key="submit" type="primary" onClick={isAdd ? this.Edit : this.Add}
+            <Button htmlType="submit" key="submit" type="primary" onClick={_ => {
+              console.log(_)
+              this.submit.click();
+            }}
             >
               确定
             </Button>,
           ]}
         >
           <Form layout="inline" style={{ marginBottom: '10px' }} onFinish={this.onFinish}>
-            <Form.Item label="用户">
+            <Form.Item style={{display: 'none'}} name="id" label="用户">
+              <Input type="text" placeholder="id" style={{ width: '255px' }} />
+            </Form.Item>
+            <Form.Item name="username" label="用户">
               <Input type="text" placeholder="用户名" style={{ width: '255px' }} />
             </Form.Item>
-            <Form.Item label="密码">
+            <Form.Item name="password" label="密码">
               <Input type="password" placeholder="密码" style={{ width: '255px' }} />
             </Form.Item>
+            <Button style={{display: 'none'}} ref={_ => this.submit = _} htmlType="submit" key="submit" type="primary" onClick={isAdd ? this.Edit : this.Add}
+            >
+              确定
+            </Button>
           </Form>
         </Modal>
       </div>
