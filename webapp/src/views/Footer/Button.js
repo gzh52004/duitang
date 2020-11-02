@@ -51,26 +51,26 @@ class But extends React.Component {
     render() {
         let { dispatch, isLogin, logout,userInfo } = this.props
         return (
-            <div style={{ height: '46px', display: 'flex', float: 'right', boxSizing: 'border-box', alignItems: 'center', flexDirection: 'row',fontSize:'14px',color:'purple' ,textAlign:'center'}}>
+            <div className='msgbox' >
                 {
                     isLogin
                         ?
                         <>
-                            <div  style={{ width: "60px", borderRadius: '10px' }}>欢迎你{userInfo.result.username}</div>
-                            <Button type="warning" size='small' inline style={{ width: "60px", borderRadius: '10px' }} onClick={() => {
+                            <div  >欢迎你{userInfo.result.username}</div>
+                            <Button className='button' type="warning" size='small' inline  onClick={() => {
                                 // dispatch({ type: 'logout' })
                                 logout()
                             }}>退出</Button>
                         </>
                         :
                         <>
-                            <Button type="primary" size='small' inline style={{ width: "60px", borderRadius: '10px' }} onClick={
+                            <Button className='button' type="primary" size='small' inline  onClick={
                                 () => {
                                     this.changeTabs(routes[0].path)
                                 }
                             }>登录</Button>
 
-                            <Button type="warning" size='small' inline style={{ width: "60px", borderRadius: '10px' }} onClick={
+                            <Button className='button' type="warning" size='small' inline  onClick={
                                 () => {
                                     this.changeTabs(routes[1].path)
                                 }

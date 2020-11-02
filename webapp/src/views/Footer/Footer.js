@@ -25,11 +25,11 @@ const Footer = function (props) {
         
       } */
     return (
-        <div className='footer' style={{ padding: '11px', }}>
+        <div className='footer' >
             <div>
-                <img style={{ width: '46px', height: "46px", display: 'inline-block', float: 'left' }} src={require('./../../assets/images/daz.jpeg')}></img>
+                <img  src={require('./../../assets/images/daz.jpeg')}></img>
 
-                <div style={{ width: '160px', height: '46px', fontSize: '16px', fontFamily: 'PingFangSC-Semibold', fontWeight: '600', color: 'rgb(68, 68, 68)', lineHeight: '23px', marginLeft: '9px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', display: 'inline-block', }}><div>有什么美得不可方物的</div><div>神仙壁纸？</div>
+                <div className='fontbox' ><div>有什么美得不可方物的</div><div>神仙壁纸？</div>
                 </div>
                 {/* <div style={{ height: '46px', display: 'flex', float: 'right', boxSizing: 'border-box', alignItems: 'center', flexDirection: 'row' }}>
                     <Button type="primary" size='small' inline style={{ width: "60px", borderRadius: '10px' }} onClick={

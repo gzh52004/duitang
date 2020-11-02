@@ -20,7 +20,10 @@ class Detailpages extends React.Component {
     async componentDidMount() {
         console.log('componentDidMount');
         console.log(this.props);
-        let { id } = this.props.match.params
+        console.log(this.props.location.pathname);
+        let id=this.props.location.pathname.slice(13)
+        // let { id } = this.props.match.params
+        console.log(id);
         let { data:{data} } = await request.get('/publish/one/' + id)
         console.log(data);
         data[0].photoImg=`http://10.3.140.198:2005/duitang_img/${data[0].photoImg}`
@@ -33,7 +36,7 @@ class Detailpages extends React.Component {
     render() {
         let data=this.state.data[0]
         console.log(data);
-        console.log(data.photoImg);
+        // console.log(data.photoImg);
         // console.log(data.sender.avatar);
         console.log(this.props);
         return (

@@ -90,92 +90,28 @@ class Avatar extends React.Component {
     render() {
         const row = (rowData, sectionID, rowID) => {
             return (
-                <div key={rowID} className='boxs' style={{ display: 'flex', flexDirection: 'row', width: '169.5px', }}>
-                    <div  >
-                        <div onClick={this.detailPages.bind(this, rowData._id)} 
-                        style={{
-                            width: '169px',
-                            height: '267px',
-                            left: '181px',
-                            top: ' 0px',
-                            margin: '15px 0 0 0',
-                            backgroundColor: 'white',
-                            borderRadius: '0 0 5px 5px '
-                        }}>
-                            <a href='' style={{ width: '169.5px' }} >
-                                <img src={rowData.photoImg} alt="" style={{ height: '169.5px', width: '169.5px', display: 'block', objectFit: 'cover', objectPosition: 'center center', borderRadius: '5px 5px 0 0' }}>
+                <div key={rowID} className='boxs' >
+                    <div>
+                        <div className='smallbox' onClick={this.detailPages.bind(this, rowData._id)} 
+                        >
+                            <div>
+                                <img src={rowData.photoImg} alt="" >
 
                                 </img>
-                                <div direction="column" style={{
-                                    padding: '8px 8px 5px',
-                                    borderBottom: '1px solid rgb(224, 224, 224)',
-                                }}>
-                                    <h5 style={{
-                                        fontSize: '12px',
-                                        color: 'rgb(51, 51, 51)',
-                                        margin: '0px',
-                                        padding: '0px',
-                                        fontSize: '12px'
-                                    }}>{rowData.theme}</h5>
-                                    <div style={{
-                                        color: 'rgb(153, 153, 153)',
-                                        marginTop: '5px',
-                                        fontSize: '12px'
-                                    }}>☆{rowData.hot_count}</div>
+                                <div className='msg' direction="column" >
+                                    <h5 >{rowData.theme}</h5>
+                                    <div className='hot' >☆{rowData.hot_count}</div>
                                 </div>
-                            </a>
-                            <div style={{
-                                lineHeight: '30px',
-                                padding: '8px',
-                                alignItems: 'center',
-                                textAlign: 'left',
-                                overflow: 'hidden',
-                                display: 'flex',
-                            }}>
-                                <img src={rowData.sender.avatar} style={{
-                                    backgroundSize: '100%',
-                                    // display:'inline-block',
-                                    // float: 'left',
-                                    width: '30px',
-                                    height: '30px',
-                                    borderRadius: '100%',
-                                    fontSize: '12px'
-                                }}>
+                            </div>
+                            <div  className='avatarbox'>
+                                <img src={rowData.sender.avatar} >
                                 </img>
-                                <div style={{
-                                    textAlign: 'center',
-                                    // float: 'right',
-                                    marginLeft: '8px',
-                                    display: 'flex',
-                                    overflow: 'hidden',
-                                    alignItems: 'flex-start',
-                                    flexDirection: 'column'
-                                }}>
-                                    <a style={{
-                                        lineHeight: '1.5',
-                                        margin: '0px',
-                                        padding: '0px',
-                                        background: 'transparent',
-                                        textDecoration: 'none',
-                                        outline: 'none',
-                                        color: 'rgb(52, 152, 219)',
-                                        fontSize: '12px'
-                                    }}>{rowData.sender.username}</a>
-                                    <a style={{
-                                        lineHeight: '1.5',
-                                        margin: '0px',
-                                        padding: '0px',
-                                        background: 'transparent',
-                                        textDecoration: 'none',
-                                        outline: 'none',
-                                        color: 'rgb(51, 51, 51)',
-                                        fontSize: '12px'
-                                    }}>{rowData.theme}</a>
+                                <div className='person' >
+                                    <a >{rowData.sender.username}</a>
+                                    <a >{rowData.theme}</a>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div >
             );

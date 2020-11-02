@@ -1,32 +1,31 @@
+@import '@/assets/sass/vw.scss';
 .Nav{
     background-color: rgb(255, 255, 255);
-    /* position: fixed; */
     width: 100%;
     box-sizing: border-box;
-    /* top: 0px; */
     z-index: 999;
-    padding: 9px;
+    padding: vw(9);
     text-align: left;
     overflow: hidden;
     display: flex;
 }
 .Nav i{
-    width: 34px;
-    height: 34px;
+    width: vw(34);
+    height: vw(34);
     background-image: url("../Nav/images/dt-head.png");
     background-size: 100%;
     background-repeat: no-repeat;
-    margin-left: 11px;
+    margin-left: vw(11);
 }
 .copy{
     box-sizing: border-box;
     flex: 1;
-    margin-left: 8px;
-    min-width: 10px;
-    font-size: 12px;
+    margin-left: vw(8);
+    min-width: vw(10);
+    font-size: vw(12);
     color: rgb(68, 68, 68);
-    line-height: 16px;
-    width: 85px;
+    line-height: vw(16);
+    width: vw(85);
 }
 .copy div:nth-of-type(1){
     font-weight: bold;
@@ -35,19 +34,19 @@
 .open{
     box-sizing: border-box;
     flex: 1;
-    margin-left: 8px;
-    margin-top: 5px;
-    min-width: 10px;
-    font-size: 13px;
+    margin-left: vw(8);
+    margin-top: vw(5);
+    min-width: vw(10);
+    font-size: vw(13);
     background-color: rgb(242, 85, 85);
-    width: 62px;
-    height: 23px;
+    width: vw(62);
+    height: vw(23);
     display: flex;
     -webkit-box-pack: center;
     justify-content: center;
     -webkit-box-align: center;
     align-items: center;
     color: rgb(255, 255, 255);
-    border-radius: 6px;
+    border-radius: vw(6);
     flex: 0 0 auto !important;
 }

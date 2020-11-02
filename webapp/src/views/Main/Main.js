@@ -128,5 +128,3 @@ class Main extends React.Component {
 }
 
 export default Main
-{/* {<div style={{ width: '76px', height: '76px', backgroundColor: 'rgba(0,0,0,0.5)' }}>
-          return item.text</div>} */}
