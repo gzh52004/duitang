@@ -11,7 +11,7 @@ const Item = Popover.Item;
 function Mine(props) {
 
     let {userInfo:{result}} = props;
-    let avatar = `http://10.3.140.198:2005/duitang_img/${result.avatar}`
+    let avatar = `http://8.129.38.95:2005/duitang_img/${result.avatar}`
 
     const firstList = [
         {

@@ -26,8 +26,8 @@ class Detailpages extends React.Component {
         console.log(id);
         let { data:{data} } = await request.get('/publish/one/' + id)
         console.log(data);
-        data[0].photoImg=`http://10.3.140.198:2005/duitang_img/${data[0].photoImg}`
-        data[0].sender.avatar=`http://10.3.140.198:2005/duitang_img/${data[0].sender.avatar}`
+        data[0].photoImg=`http://8.129.38.95:2005/duitang_img/${data[0].photoImg}`
+        data[0].sender.avatar=`http://8.129.38.95:2005/duitang_img/${data[0].sender.avatar}`
         this.setState({
             data: data
         })

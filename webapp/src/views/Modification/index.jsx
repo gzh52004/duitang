@@ -117,7 +117,7 @@ class Modification extends React.Component {
         
         const data = [
             {
-                url:`http://10.3.140.198:2005/duitang_img/${result.avatar}`,
+                url:`http://8.129.38.95:2005/duitang_img/${result.avatar}`,
                 id: result._id,
             },
         ]

@@ -18,7 +18,6 @@ import request from './../../utils/request'
 import { ListView } from 'antd-mobile';
 
 
-
 const NUM_ROWS = 20;
 let pageIndex = 0;
 
@@ -56,10 +55,10 @@ class Avatar extends React.Component {
         })
         console.log(datalist);
         datalist.data.forEach((item) => {
-            item.photoImg = `http://10.3.140.198:2005/duitang_img/${item.photoImg}`
+            item.photoImg = `http://8.129.38.95:2005/duitang_img/${item.photoImg}`
         })
         datalist.data.forEach((item) => {
-            item.sender.avatar = `http://10.3.140.198:2005/duitang_img/${item.sender.avatar}`
+            item.sender.avatar = `http://8.129.38.95:2005/duitang_img/${item.sender.avatar}`
         })
         this.setState({
             dataSource: this.state.dataSource.cloneWithRows(datalist.data)
