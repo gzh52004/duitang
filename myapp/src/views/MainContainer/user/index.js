@@ -1,10 +1,12 @@
 import React from "react";
 import { Table, Space, Button, Modal, Form, Input, Popconfirm, message } from 'antd';
 import moment from "moment"
+import sha256 from 'crypto-js/sha256'
 import request from '@/utils/request'
 import './index.scss'
 import {IMGIP} from '../../../config.json'
 import '../../../../node_modules/moment/locale/zh-cn';
+
 const { Column } = Table;
 
 class User extends React.Component {
@@ -12,8 +14,7 @@ class User extends React.Component {
     data: [],
     visible: false,
     isAdd: false,
-
-
+    currentId : ''
   }
 
   async componentDidMount() {
@@ -32,14 +33,15 @@ class User extends React.Component {
       user.addTime = moment(user.addTime).format("lll")  
     })
     this.setState({
-      data: [1,2,3,4,5,6,7,8,9,10].map(item =>{
-        return {
-          _id: item,
-          username: '测试' + item,
-          avatar: '测试' + item,
-          addTime: new Date().getTime()
-        }
-      })
+      // data: [1,2,3,4,5,6,7,8,9,10].map(item =>{
+      //   return {
+      //     _id: item,
+      //     username: '测试' + item,
+      //     avatar: '测试' + item,
+      //     addTime: new Date().getTime()
+      //   }
+      // })
+      data : data.data
     })
     // console.log(data);
   }
@@ -50,8 +52,9 @@ class User extends React.Component {
     this.setState({
       visible: true,
       isAdd: false,
+      currentId : id
     });
-    console.log(id);
+    console.log(id,'id');
     
   };
   // 新增弹出框
@@ -83,10 +86,11 @@ class User extends React.Component {
   //   console.log('id=',id);
   // }
 
-  onFinish = values => {
+  onFinish = async values => {
     console.log('Success:', values);
     // isAdd ? this.Edit() : this.Add()
-    console.log(this.state.isAdd)
+    console.log(this.state.isAdd,'44444')
+    console.log(this.state.currentId,'this.currentId')
     if(this.state.isAdd){
       // 添加
       this.setState({
@@ -100,6 +104,16 @@ class User extends React.Component {
       })
     } else {
       // 修改
+      const result = await request.put('user/update/' + this.state.currentId,{
+          username : values.username,
+          password : sha256(values.password).toString()
+      })
+      console.log(result,'result')
+      if(result.data.code == 1){
+        this.setState({
+          data : [...result.data.data].reverse()
+        })
+      }
     }
     this.setState({
       visible: false,
@@ -148,7 +162,7 @@ class User extends React.Component {
         <Table dataSource={data} rowKey="_id">
           <Column title="姓名" dataIndex="username" />
           <Column title="注册时间" dataIndex="addTime" />
-          <Column title="头像" render={(text, record, index) => (<img src={record.avatar} alt="" className='img' />)
+          <Column title="头像" render={(text, record, index) => (<img src={`${IMGIP}duitang_img/${record.avatar}`} alt="" className='img' />)
           } />
           <Column
             title="操作"
@@ -197,10 +211,10 @@ class User extends React.Component {
             <Form.Item style={{display: 'none'}} name="id" label="用户">
               <Input type="text" placeholder="id" style={{ width: '255px' }} />
             </Form.Item>
-            <Form.Item name="username" label="用户">
+            <Form.Item name="username" label="用户" rules={[{ required: true, message: '用户名不能为空' }]}>
               <Input type="text" placeholder="用户名" style={{ width: '255px' }} />
             </Form.Item>
-            <Form.Item name="password" label="密码">
+            <Form.Item name="password" label="密码" rules={[{ required: true, message: '密码不能为空' }]}>
               <Input type="password" placeholder="密码" style={{ width: '255px' }} />
             </Form.Item>
             <Button style={{display: 'none'}} ref={_ => this.submit = _} htmlType="submit" key="submit" type="primary" onClick={isAdd ? this.Edit : this.Add}
